@@ -53,7 +53,7 @@ app.get('*', (req, res) =>
 
 app.post('/api/addcard', async (req, res, next) =>
 {
-  // incoming: userId, color
+  // incoming: userId, card
   // outgoing: error
 
   const { userId, card } = req.body;
@@ -72,6 +72,31 @@ app.post('/api/addcard', async (req, res, next) =>
   }
 
   var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/api/signup', async (req, res, next) =>
+{
+  // incoming: login, email, password
+  // outgoing: error
+
+  var error = '';
+
+  const {firstName, lastName, login, email, password} = req.body;
+
+  const newUser = {Login:login,Email:email,Password:password, Flag:false, FirstName:firstName, LastName:lastName};
+
+  try
+  {
+    const db = client.db();
+    const result = db.collection('users').insertOne(newUser);
+  }
+  catch(e)
+  {
+    error = e.toString();
+  }
+
+  var ret = {error:error};
   res.status(200).json(ret);
 });
 
