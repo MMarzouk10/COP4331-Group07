@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import './App.css';
 
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import CardPage from './pages/CardPage';
 
 function App() {
@@ -11,6 +12,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <LoginPage />
+        </Route>
+        <Route path="/signup" exact>
+          <SignupPage />
         </Route>
         <Route path="/cards" exact>
           <CardPage />
