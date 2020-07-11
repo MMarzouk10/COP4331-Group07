@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'user.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -79,9 +80,8 @@ class SignIn extends State<SignInPage> {
           padding: const EdgeInsets.symmetric(vertical: 220.0),
           child: FloatingActionButton.extended(
             onPressed: () {
-              serverResponse =
-                  signIn(usernameController.text, passwordController.text);
-
+              signIn(usernameController.text, passwordController.text);
+              //navigateToSignUp(context);
               var response = serverResponse ?? "";
               if (response != null) {
                 return serverResponse;
@@ -100,29 +100,52 @@ class SignIn extends State<SignInPage> {
 
   signIn(String username, pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map data = {'username': username, 'password': pass};
+    //var data = {'login': username, 'password': pass};
     var jsonResponse;
-    var response = await http
-        .post("https://mernstack-1.herokuapp.com/api/login", body: data);
-    jsonResponse = json.decode(response.body);
-    print(response.body);
+    String json = '{"login":"' + username + '", "password": "' + pass + '"}';
+    http.Response response = await http.post(
+        "https://mernstack-1.herokuapp.com/api/login",
+        body: utf8.encode(json),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        encoding: Encoding.getByName("utf-8"));
+
+    Map userMap = jsonDecode(response.body);
+    var user = User.fromJson(userMap);
+
+    //print(response.body);
+    //print(response.headers);
+
+    //navigateToSignUp(context);
+    //else
+    //print("wrong pass");
     if (jsonResponse != null) {
       setState(() {
         _isLoading = false;
       });
       sharedPreferences.setString("token", jsonResponse['token']);
+
+      //Navigator.push(
+      //context, MaterialPageRoute(builder: (context) => SignUpPage()));
       //Navigator.of(context).pushAndRemoveUntil(
-      //  MaterialPageRoute(builder: (BuildContext context) => SignUpPage()),
+      //MaterialPageRoute(builder: (BuildContext context) => SignUpPage()),
       //(Route<dynamic> route) => false);
     } else {
       setState(() {
         _isLoading = false;
       });
-      return jsonResponse;
     }
-  }
 
-  /*_makeGetRequest() async {
+    serverResponse = "Hello ${user.userName}";
+  }
+}
+
+Future navigateToSignUp(context) async {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => SignUpPage()));
+/*_makeGetRequest() async {
     Response response = await get(_localhost());
     setState(() {
       serverResponse = response.body;
