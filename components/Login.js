@@ -1,39 +1,50 @@
 import React, { useState } from 'react';
 
-function Login()
+const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+//FOR LOCAL TESTING USE LOCALHOST URL
+//const BASE_URL = 'http://localhost:5000/';
+
+function signup()
 {
     var loginName;
     var loginPassword;
+    var emailName;
 
-    const [message,setMessage] = useState('');
+   // const [message,setMessage] = useState('');
 
-    const doLogin = async event => 
+    const doSignup = async event => 
+
+    
     {
+        
         event.preventDefault();
 
-        var js = '{"login":"'
+        var js = '{"email":"'
+                + emailName.value
+                + '","login":"'
             + loginName.value
             + '","password":"'
             + loginPassword.value +'"}';
 
-        try
+            try
         {    
-            const response = await fetch('http://localhost:5000/api/login',
+            const response = await fetch(BASE_URL + 'api/signup',
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
-
-            if( res.id <= 0 )
+            
+            if( res.id > 0 )
             {
-                setMessage('User/Password combination incorrect');
+                //setMessage('User already exists');
+                alert("user exists already");
             }
             else
             {
                 var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
                 localStorage.setItem('user_data', JSON.stringify(user));
 
-                setMessage('');
-                window.location.href = '/cards';
+               // setMessage('');
+                window.location.href = '/';
             }
         }
         catch(e)
@@ -42,29 +53,22 @@ function Login()
             return;
         }    
     };
-    const doSignup = async event => 
-    {
-        
-                window.location.href = '/signup';
-         
-    };
-    
 
 
     return(
       <div id="loginDiv">
-        <form onSubmit={doLogin}>
-        <span id="inner-title">PLEASE LOG IN</span><br />
+        <form onSubmit={doSignup}>
+        <span id="inner-title">PLEASE SIGN UP</span><br />
+        <input type="text" id="emailName" placeholder="email" ref={(c) => emailName = c} /><br />
         <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
         <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-        <input type="submit" id="loginButton" class="buttons" value = "Do It"
-          onClick={doLogin} />
-          <input type="submit" id="loginButton" class="buttons" value = "Signup?"
+        <input type="submit" id="signupButton" class="buttons" value = "Sign Up"
           onClick={doSignup} />
+
         </form>
-        <span id="loginResult">{message}</span>
+        
      </div>
     );
 };
 
-export default Login;
+export default signup;
