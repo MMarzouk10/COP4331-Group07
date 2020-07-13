@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+//FOR LOCAL TESTING USE LOCALHOST URL
+//const BASE_URL = 'http://localhost:5000/';
+
 function signup()
 {
     var loginName;
     var loginPassword;
     var emailName;
-    
+
    // const [message,setMessage] = useState('');
 
     const doSignup = async event => 
@@ -25,7 +29,7 @@ function signup()
             try
         {    
             const response = await fetch(BASE_URL + 'api/signup',
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
             
