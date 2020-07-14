@@ -91,7 +91,7 @@ class SignUp extends State<SignUpPage> {
   }
 
   _launchURL() async {
-    const url = 'https://flutter.dev';
+    const url = 'https://mernstack-1.herokuapp.com/signup';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
