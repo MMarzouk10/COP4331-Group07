@@ -11,7 +11,7 @@ class UltraTrivia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Navigation',
+      title: 'Ultra Trivia',
       home: SignUpPage(),
     );
   }

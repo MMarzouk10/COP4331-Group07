@@ -18,18 +18,6 @@ class SignUp extends State<SignUpPage> {
   String serverResponse = 'Server response';
 
   SharedPreferences sharedPreferences;
-  //@override
-  /*void initState() {
-    super.initState();
-    checkLoginStatus();
-  }*/
-
-  checkLoginStatus() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      navigateToSignIn(context);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +39,10 @@ class SignUp extends State<SignUpPage> {
                   minWidth: 200.0,
                   height: 80.0,
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       _launchURL();
+                      await new Future.delayed(const Duration(seconds: 5));
+                      navigateToSignIn(context);
                     },
                     child: Text('Sign Up'),
                     color: Colors.deepPurpleAccent,
@@ -68,8 +58,8 @@ class SignUp extends State<SignUpPage> {
                   height: 80.0,
                   child: RaisedButton(
                     onPressed: () {
-                      checkLoginStatus();
-                      //navigateToSignIn(context);
+                      //checkLoginStatus();
+                      navigateToSignIn(context);
                     },
                     child: Text('Sign In'),
                     color: Colors.deepPurpleAccent,

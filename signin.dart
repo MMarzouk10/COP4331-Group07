@@ -16,7 +16,6 @@ class SignInPage extends StatefulWidget {
 
 class SignIn extends State<SignInPage> {
   String serverResponse = 'Server response';
-  bool _isLoading = false;
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
   Future<User> futureUser;
@@ -52,7 +51,7 @@ class SignIn extends State<SignInPage> {
                   } else if (user.hasError) {
                     return Text("${user.error}");
                   }
-                  return CircularProgressIndicator();
+                  return Text("Server Response");
                 },
               )),
               Center(
@@ -89,7 +88,7 @@ class SignIn extends State<SignInPage> {
           ),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 220.0),
+          padding: const EdgeInsets.symmetric(vertical: 210.0),
           child: FloatingActionButton.extended(
             onPressed: () {
               setState(() {
