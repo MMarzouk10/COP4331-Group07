@@ -1,24 +1,39 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'user.g.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-// run 'flutter pub run build_runner build' whenever any changes are made to this file - dv
+Future<User> fetchUser(String username, pass) async {
+  String input = '{"login":"' + username + '", "password": "' + pass + '"}';
 
-/// An annotation for the code generator to know that this class needs the
-/// JSON serialization logic to be generated.
-@JsonSerializable(explicitToJson: true)
+  final response = await http.post(
+      "https://mernstack-1.herokuapp.com/api/login",
+      body: utf8.encode(input),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      encoding: Encoding.getByName("utf-8"));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return User.fromJson(json.decode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load user');
+  }
+}
+
 class User {
-  User(this.userName, this.userID);
+  final String userName;
+  final String userID;
 
-  String userName;
-  String userID;
+  User({this.userName, this.userID});
 
-  /// A necessary factory constructor for creating a new User instance
-  /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
-  /// The constructor is named after the source class, in this case, User.
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  /// `toJson` is the convention for a class to declare support for serialization
-  /// to JSON. The implementation simply calls the private, generated
-  /// helper method `_$UserToJson`.
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userName: json['login'].toString(),
+      userID: json['id'].toString(),
+    );
+  }
 }

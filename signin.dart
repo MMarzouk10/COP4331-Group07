@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:link/link.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'signup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+//import 'package:shared_preferences/shared_preferences.dart';
+//import 'dart:convert';
 import 'user.dart';
 
 class SignInPage extends StatefulWidget {
@@ -19,6 +19,7 @@ class SignIn extends State<SignInPage> {
   bool _isLoading = false;
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
+  Future<User> futureUser;
 
   @override
   void dispose() {
@@ -42,7 +43,18 @@ class SignIn extends State<SignInPage> {
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 150),
           child: Column(
             children: <Widget>[
-              Center(child: Text(serverResponse)),
+              Center(
+                  child: FutureBuilder<User>(
+                future: futureUser,
+                builder: (context, user) {
+                  if (user.hasData) {
+                    return Text(user.data.userID);
+                  } else if (user.hasError) {
+                    return Text("${user.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              )),
               Center(
                 //alignment: Alignment.center,
                 child: TextFormField(
@@ -80,14 +92,10 @@ class SignIn extends State<SignInPage> {
           padding: const EdgeInsets.symmetric(vertical: 220.0),
           child: FloatingActionButton.extended(
             onPressed: () {
-              signIn(usernameController.text, passwordController.text);
-              //navigateToSignUp(context);
-              var response = serverResponse ?? "";
-              if (response != null) {
-                return serverResponse;
-              } else {
-                return "No Server Response Detected";
-              }
+              setState(() {
+                futureUser =
+                    fetchUser(usernameController.text, passwordController.text);
+              });
             },
             label: Text('Sign In'),
             icon: Icon(Icons.thumb_up),
@@ -97,7 +105,12 @@ class SignIn extends State<SignInPage> {
       ),
     );
   }
+}
 
+Future navigateToSignUp(context) async {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => SignUpPage()));
+/*_
   signIn(String username, pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //var data = {'login': username, 'password': pass};
@@ -112,11 +125,16 @@ class SignIn extends State<SignInPage> {
         },
         encoding: Encoding.getByName("utf-8"));
 
-    Map userMap = jsonDecode(response.body);
-    var user = User.fromJson(userMap);
-
-    //print(response.body);
-    //print(response.headers);
+    if (response.statusCode == 200) {
+      final response = await http.get("https://mernstack-1.herokuapp.com/api/login");
+      Map userMap = jsonDecode(response.body.toString());
+      var user = User.fromJson(userMap);
+      serverResponse = "Hello ${user.userName}";
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      serverResponse = 'Error: Unable to connect';
+    }
 
     //navigateToSignUp(context);
     //else
@@ -137,15 +155,9 @@ class SignIn extends State<SignInPage> {
         _isLoading = false;
       });
     }
-
-    serverResponse = "Hello ${user.userName}";
   }
-}
 
-Future navigateToSignUp(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SignUpPage()));
-/*_makeGetRequest() async {
+makeGetRequest() async {
     Response response = await get(_localhost());
     setState(() {
       serverResponse = response.body;
