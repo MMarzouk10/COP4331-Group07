@@ -26,7 +26,10 @@ class SignUp extends State<SignUpPage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Ultra Trivia'),
+          title: Text(
+            'Ultra Trivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
           backgroundColor: Colors.deepPurpleAccent,
         ),
         body: new Container(

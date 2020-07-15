@@ -6,6 +6,7 @@ import 'signup.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 //import 'dart:convert';
 import 'user.dart';
+import 'globals.dart' as globals;
 
 class SignInPage extends StatefulWidget {
   @override
@@ -15,11 +16,10 @@ class SignInPage extends StatefulWidget {
 }
 
 class SignIn extends State<SignInPage> {
-  String serverResponse = 'Server response';
+  //String serverResponse = 'Server response';
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
   Future<User> futureUser;
-
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -35,7 +35,10 @@ class SignIn extends State<SignInPage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Ultra Trivia'),
+          title: Text(
+            'Ultra Trivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
           backgroundColor: Colors.deepPurpleAccent,
         ),
         body: new Container(
@@ -43,17 +46,20 @@ class SignIn extends State<SignInPage> {
           child: Column(
             children: <Widget>[
               Center(
-                  child: FutureBuilder<User>(
-                future: futureUser,
-                builder: (context, user) {
-                  if (user.hasData) {
-                    return Text(user.data.userID);
-                  } else if (user.hasError) {
-                    return Text("${user.error}");
-                  }
-                  return Text("Server Response");
-                },
-              )),
+                child: FutureBuilder<User>(
+                  future: futureUser,
+                  builder: (context, user) {
+                    if (user.hasData) {
+                      globals.userID = '${user.data.userID}';
+                      globals.userName = '${user.data.userName}';
+                      return Text(user.data.userID);
+                    } else if (user.hasError) {
+                      return Text("${user.error}");
+                    }
+                    return Text("Server Response");
+                  },
+                ),
+              ),
               Center(
                 //alignment: Alignment.center,
                 child: TextFormField(

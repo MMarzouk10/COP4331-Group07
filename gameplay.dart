@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 //import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 //import 'signin.dart';
+import 'user.dart';
 import 'package:flip_card/flip_card.dart';
+import 'globals.dart';
 
 GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
@@ -21,16 +23,23 @@ class GamePlay extends State<GamePlayPage> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.deepPurpleAccent,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Ultra Trivia'),
+          title: Text(
+            'Ultra Trivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
           backgroundColor: Colors.deepPurpleAccent,
         ),
         body: new FlipCard(
           key: cardKey,
           flipOnTouch: false,
           front: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 150),
+            width: 500,
+            height: 1400,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 120),
             child: Column(
               children: <Widget>[
                 Center(
@@ -39,46 +48,71 @@ class GamePlay extends State<GamePlayPage> {
                       //mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         const ListTile(
-                          leading: Icon(Icons.query_builder),
-                          title: Text('Trivia Question Topic'),
-                          subtitle: Text('Trivia Question?'),
+                          //leading: Icon(Icons.query_builder),
+                          title: Text('This is a Trivia Question?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          //subtitle: Text('Trivia Question?'),
                         ),
                         ButtonBar(
                           alignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                const SizedBox(width: 50),
-                                RaisedButton(
-                                  child: const Text('Answer #1'),
-                                  onPressed: () {/* ... */},
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
                                 ),
-                                const SizedBox(width: 30),
-                                RaisedButton(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: const Text('Answer #2'),
-                                  onPressed: () {/* ... */},
-                                ),
-                              ],
+                                color: Colors.deepPurpleAccent,
+                                child: const Text('This is Answer #1'),
+                                onPressed: () {/* ... */},
+                              ),
                             ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: <Widget>[
-                                const SizedBox(width: 50),
-                                RaisedButton(
-                                  child: const Text('Answer #3'),
-                                  onPressed: () {/* ... */},
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
                                 ),
-                                const SizedBox(width: 30),
-                                RaisedButton(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: const Text('Answer #4'),
-                                    onPressed: () {
-                                      cardKey.currentState.toggleCard();
-                                    }),
-                              ],
+                                color: Colors.deepPurpleAccent,
+                                child: const Text('This is Answer #2'),
+                                onPressed: () {/* ... */},
+                              ),
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.deepPurpleAccent,
+                                child: const Text('This is Answer #3'),
+                                onPressed: () {/* ... */},
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.deepPurpleAccent,
+                                child: const Text('This is Answer #4'),
+                                onPressed: () {
+                                  cardKey.currentState.toggleCard();
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ],
@@ -89,7 +123,10 @@ class GamePlay extends State<GamePlayPage> {
             ),
           ),
           back: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 150),
+            width: 400,
+            height: 1400,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 120),
             child: Column(
               children: <Widget>[
                 Center(
@@ -102,13 +139,16 @@ class GamePlay extends State<GamePlayPage> {
                           title: Center(
                             child: Text(
                               'Incorrect',
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
                             ),
                           ),
                           //subtitle: Text('Trivia Question?'),
                         ),
                         FlatButton(
-                          child: const Text('Try Again'),
+                          child: Text('Try Again'),
                           onPressed: () {
                             cardKey.currentState.toggleCard();
                           },
