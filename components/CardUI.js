@@ -85,6 +85,10 @@ function CardUI()
     {
         window.location.href = '/profile';
     };
+	const faq = async event => 
+    {
+        window.location.href = '/faq';
+    };
 
 
 
@@ -93,6 +97,9 @@ function CardUI()
         <br />
         <button type="button" id="profilePage" class="buttons" 
           onClick={goProfile}> Profile </button><br />
+        <br />
+        <button type="button" id="faqPage" class="buttons" 
+          onClick={faq}> FAQ </button><br />
         <br />
         <input type="text" id="searchText" placeholder="Card To Search For" 
           ref={(c) => search = c} />
@@ -111,3 +118,4 @@ function CardUI()
 }
 
 export default CardUI;
+
