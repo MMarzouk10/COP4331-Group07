@@ -7,6 +7,7 @@ import 'signup.dart';
 //import 'dart:convert';
 import 'user.dart';
 import 'globals.dart' as globals;
+import 'splash.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -52,7 +53,16 @@ class SignIn extends State<SignInPage> {
                     if (user.hasData) {
                       globals.userID = '${user.data.userID}';
                       globals.userName = '${user.data.userName}';
-                      return Text(user.data.userID);
+                      if (globals.userID == '-1')
+                        return Text('Invalid Username/Password');
+
+                      Future.delayed(
+                        Duration.zero,
+                        () {
+                          navigateToSplashScreen(context);
+                        },
+                      );
+                      //return Text(globals.userID); //Text(user.data.userID);
                     } else if (user.hasError) {
                       return Text("${user.error}");
                     }
@@ -115,6 +125,13 @@ class SignIn extends State<SignInPage> {
 Future navigateToSignUp(context) async {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => SignUpPage()));
+}
+
+Future navigateToSplashScreen(context) async {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => SplashScreen()));
+}
+
 /*_
   signIn(String username, pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -175,4 +192,3 @@ makeGetRequest() async {
     else // for iOS simulator
       return 'http://localhost:5000';
   }*/
-}
