@@ -82,9 +82,9 @@ app.post('/api/signup', async (req, res, next) =>
 
   var error = '';
 
-  const {firstName, lastName, login, email, password} = req.body;
+  const {login, email, password} = req.body;
 
-  const newUser = {Login:login,Email:email,Password:password, Flag:false, FirstName:firstName, LastName:lastName};
+  const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0};
 
   try
   {
@@ -100,10 +100,22 @@ app.post('/api/signup', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/api/forgotpassword', async (req, res, next) =>
+{
+  //incoming: email
+  //outgoing: confirmation
+
+  var error = '';
+
+  const{email} = req.body;
+
+//SEND EMAIL LINK TO RESET PASSWORD
+})
+
 app.post('/api/login', async (req, res, next) => 
 {
   // incoming: login, password
-  // outgoing: id, firstName, lastName, error
+  // outgoing: id, error
 
   var error = '';
 
@@ -113,21 +125,19 @@ app.post('/api/login', async (req, res, next) =>
   const results = await db.collection('users').find({Login:login,Password:password}).toArray();
 
   var id = -1;
-  var fn = '';
-  var ln = '';
+  var loginName = '';
 
   if( results.length > 0 )
   {
-    id = results[0].UserId;
-    fn = results[0].FirstName;
-    ln = results[0].LastName;
+    id = results[0]._id;
+    loginName = results[0].Login;
   }
   else
   {
     error = 'Invalid user name/password';
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:error};
+  var ret = {login:loginName, id: id, error:error};
   res.status(200).json(ret);
 });
 
@@ -143,7 +153,7 @@ app.post('/api/searchcards', async (req, res, next) =>
   var _search = search.trim();
   
   const db = client.db();
-  const results = await db.collection('cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();
+  const results = await db.collection('cards').find({"Card":{$regex:_search+'.*', $options:'r'}, UserId:userId}).toArray();
   
   var _ret = [];
   for( var i=0; i<results.length; i++ )
@@ -152,6 +162,75 @@ app.post('/api/searchcards', async (req, res, next) =>
   }
 
   var ret = {results:_ret, error:''};
+  res.status(200).json(ret);
+});
+
+app.post('/api/changelogin', async (req, res, next) =>
+{
+  // incoming: userId, newlogin
+  // outgoing: error
+
+  var error = '';
+
+  const {userId, newLogin} = req.body; //Get user and new login from body
+
+  const db = client.db(); //set client for db
+  //const result = await db.collection('users').find({UserId:userId}); //find the user
+
+  try
+  {
+    db.collection('users').update({_id: userId}, {$set: {Login:newLogin}}); //update the login field
+  }
+  catch(e)
+  {
+    error = e.toString();
+  }
+
+  var ret = {userId: userId, error: error};
+  res.status(200).json(ret);
+});
+
+app.post('/api/changepassword', async (req, res, next) =>
+{
+  // incoming: userId, newPassword, oldPassword
+  // outgoing: error
+
+  var error = '';
+
+  const {userId, newPassword, oldPassword} = req.body;//Get userId, old password, and new password login from body
+
+  const db = client.db();//set client db
+
+  try{
+    db.collection('users').update({_id:userId, Password:oldPassword }, {$set: {Password: newPassword}}); //update the password field
+  }
+  catch(e){
+    error = e.toString();
+  }
+
+  var ret = {error: error};
+  res.status(200).json(ret);
+});
+
+app.post('/api/changemail', async (req, res, next) =>
+{
+  // incoming: userId, newEmail
+  // outgoing: error
+
+  var error = '';
+
+  const {userId, newEmail} = req.body;//Get user and new password login from body
+
+  const db = client.db();//set client db
+
+  try{
+    db.collection('users').update({_id: userId}, {$set: {Email: newEmail}}); //update the password field
+  }
+  catch(e){
+    error = e.toString();
+  }
+
+  var ret = {error: error};
   res.status(200).json(ret);
 });
 
