@@ -84,7 +84,7 @@ app.post('/api/signup', async (req, res, next) =>
 
   const {login, email, password} = req.body;
 
-  const newUser = {Login:login,Email:email,Password:password, Flag:false};
+  const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0};
 
   try
   {
@@ -99,6 +99,18 @@ app.post('/api/signup', async (req, res, next) =>
   var ret = {error:error};
   res.status(200).json(ret);
 });
+
+app.post('/api/forgotpassword', async (req, res, next) =>
+{
+  //incoming: email
+  //outgoing: confirmation
+
+  var error = '';
+
+  const{email} = req.body;
+
+//SEND EMAIL LINK TO RESET PASSWORD
+})
 
 app.post('/api/login', async (req, res, next) => 
 {
@@ -115,10 +127,9 @@ app.post('/api/login', async (req, res, next) =>
   var id = -1;
   var loginName = '';
 
-//KEEPS GOING TO ELSE STATEMENT!!!
   if( results.length > 0 )
   {
-//    id = results[0]._id;
+    id = results[0]._id;
     loginName = results[0].Login;
   }
   else
@@ -126,7 +137,7 @@ app.post('/api/login', async (req, res, next) =>
     error = 'Invalid user name/password';
   }
 
-  var ret = {login:loginName, error:error};
+  var ret = {login:loginName, id: id, error:error};
   res.status(200).json(ret);
 });
 
@@ -181,17 +192,17 @@ app.post('/api/changelogin', async (req, res, next) =>
 
 app.post('/api/changepassword', async (req, res, next) =>
 {
-  // incoming: userId, newPassword
+  // incoming: userId, newPassword, oldPassword
   // outgoing: error
 
   var error = '';
 
-  const {userId, newPassword} = req.body;//Get user and new password login from body
+  const {userId, newPassword, oldPassword} = req.body;//Get userId, old password, and new password login from body
 
   const db = client.db();//set client db
 
   try{
-    db.collection('users').update({_id: userId}, {$set: {Password: newPassword}}); //update the password field
+    db.collection('users').update({_id:userId, Password:oldPassword }, {$set: {Password: newPassword}}); //update the password field
   }
   catch(e){
     error = e.toString();
