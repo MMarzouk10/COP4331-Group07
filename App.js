@@ -24,7 +24,7 @@ function App() {
           <ProfilePage />
         </Route>
         <Route path="/faq" exact>
-          <faqPage />
+          <FaqPage />
         </Route>
         <Redirect to="/" />
       </Switch>  
