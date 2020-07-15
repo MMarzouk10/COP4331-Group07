@@ -6,7 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import CardPage from './pages/CardPage';
 import ProfilePage from './pages/ProfilePage';
-import faqPage from './pages/faqPage';
+import FaqPage from './pages/FaqPage';
 function App() {
   return (
     <Router >
