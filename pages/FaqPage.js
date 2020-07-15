@@ -4,7 +4,7 @@ import React from 'react';
 import Faq from '../components/Faq';
 
 
-const faqPage = () =>
+const FaqPage = () =>
 {
 
     return(
@@ -15,4 +15,4 @@ const faqPage = () =>
     );
 };
 
-export default faqPage;
+export default FaqPage;
