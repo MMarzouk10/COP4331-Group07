@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import faq from '../components/faq';
+import Faq from '../components/Faq';
 
 
 const faqPage = () =>
@@ -9,7 +9,7 @@ const faqPage = () =>
 
     return(
       <div>
-        <faq />
+        <Faq />
         
       </div>
     );
