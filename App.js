@@ -6,7 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import CardPage from './pages/CardPage';
 import ProfilePage from './pages/ProfilePage';
-
+import faqPage from './pages/faqPage';
 function App() {
   return (
     <Router >
@@ -22,6 +22,9 @@ function App() {
         </Route>
         <Route path="/profile" exact>
           <ProfilePage />
+        </Route>
+        <Route path="/faq" exact>
+          <faqPage />
         </Route>
         <Redirect to="/" />
       </Switch>  
