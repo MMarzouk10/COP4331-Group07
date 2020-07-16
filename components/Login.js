@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+//FOR LOCAL TESTING USE LOCALHOST URL
+//const BASE_URL = 'http://localhost:5000/';
+
 function Login()
 {
     var loginName;
@@ -42,14 +46,13 @@ function Login()
             return;
         }    
     };
+
     const doSignup = async event => 
     {
         
                 window.location.href = '/signup';
          
     };
-    
-
 
     return(
       <div id="loginDiv">
@@ -66,5 +69,3 @@ function Login()
      </div>
     );
 };
-
-export default Login;
