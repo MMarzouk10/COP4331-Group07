@@ -290,6 +290,123 @@ app.post('/api/changemail', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/api/getPoints', async (req, res, next) => 
+{
+  // incoming: UserId
+  // outgoing: points, error
+
+ var error = '';
+
+  const { userId } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('users').find({UserId:userId}).toArray();
+
+  var id = -1;
+  var points = -1;
+
+  if( results.length > 0 )
+  {
+    points = results[0].Points;
+  }
+
+  var ret = { Points:points, error:''};
+  res.status(200).json(ret);
+});
+
+app.post('/api/getQuestion', async (req, res, next) => 
+{
+  // incoming: category
+  // outgoing: question, answer1 answer2, answer3, answer4
+
+ var error = '';
+
+  const { category, usedQuestions } = req.body;
+
+
+  const db = client.db();
+  const results = await db.collection('questions').find({Category:category}).toArray();
+
+  var question = '';
+  var option1 = '';
+  var option2 = '';
+  var option3 = '';
+  var option4 = '';
+
+  // Random question number
+  do 
+  {
+  	var qNum = Math.floor(Math.random() * results.length);
+  } while (usedQuestions.includes(qNum));
+
+  if( results.length > 0 )
+  {
+    question = results[qNum].Question;
+    option1 = results[qNum].Option1;
+    option2 = results[qNum].Option2;
+    option3 = results[qNum].Option3;
+    option4 = results[qNum].Option4;
+  }
+  var ret = { Quesiton:question, Option1:option1, option2:option2, Option3:option3, Option4:option4, QNum:qNum, error:''};
+  res.status(200).json(ret);
+});
+
+
+app.post('/api/answerQuestion', async (req, res, next) => 
+{
+  // incoming: question, answer
+  // outgoing: isCorrect
+
+ var error = '';
+
+  const { question, answer } = req.body;
+
+
+  const db = client.db();
+  const results = await db.collection('questions').find({Question:question}).toArray();
+
+  if( results.length > 0 )
+  {
+    correctAnswer = results[0].Answer;
+
+  }
+
+  var isCorrect = answer.equals(correctAnswer);
+
+  var ret = { isCorrect:isCorrect, error:''};
+
+  if (isCorrect)
+  {
+  	// Call add points
+  }
+
+  res.status(200).json(ret);
+});
+
+app.post('/api/incrementPoints', async (req, res, next) => 
+{
+  // incoming: userId,
+  // outgoing: error
+
+  const { userId } = req.body;
+  var error = '';
+
+  try
+  {
+    const db = client.db();
+    const result = db.collection('users').findAndModify({query: {UserId: userId}, update: {$inc: {Points: 1}}});
+  }
+  catch(e)
+  {
+    error = e.toString();
+  }
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+
+
 app.use((req, res, next) => 
 {
   res.setHeader('Access-Control-Allow-Origin', '*');
