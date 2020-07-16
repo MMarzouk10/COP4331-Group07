@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 //import 'package:link/link.dart';
 //import 'dart:io';
 //import 'package:http/http.dart';
-import 'package:ultratrivia/signin.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'signin.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -27,12 +26,17 @@ class SignUp extends State<SignUpPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Ultra Trivia',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            'UltraTrivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.purple[900],
         ),
         body: new Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.deepPurple, Colors.purple])),
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 150),
           child: Column(
             children: <Widget>[
@@ -47,9 +51,15 @@ class SignUp extends State<SignUpPage> {
                       await new Future.delayed(const Duration(seconds: 5));
                       navigateToSignIn(context);
                     },
-                    child: Text('Sign Up'),
-                    color: Colors.deepPurpleAccent,
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    color: Colors.purple[900],
                     textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.purple)),
                     padding: const EdgeInsets.all(0.0),
                   ),
                 ),
@@ -64,9 +74,15 @@ class SignUp extends State<SignUpPage> {
                       //checkLoginStatus();
                       navigateToSignIn(context);
                     },
-                    child: Text('Sign In'),
-                    color: Colors.deepPurpleAccent,
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    color: Colors.purple[900],
                     textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.purple)),
                     padding: const EdgeInsets.all(0.0),
                   ),
                 ),

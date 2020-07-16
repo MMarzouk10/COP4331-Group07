@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-//import 'package:ultra_trivia/home.dart';
+import 'categories.dart';
+import 'signin.dart';
 import 'dart:io';
 import 'user.dart';
 import 'signup.dart';
 import 'globals.dart' as globals;
 
-class SplashScreen extends StatefulWidget {
+class splashscreen extends StatefulWidget {
   @override
-  SplashScreenState createState() => SplashScreenState();
+  _splashscreenState createState() => _splashscreenState();
 }
 
 class Constants {
@@ -24,7 +25,7 @@ class Constants {
   ];
 }
 
-class SplashScreenState extends State<SplashScreen> {
+class _splashscreenState extends State<splashscreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -33,12 +34,20 @@ class SplashScreenState extends State<SplashScreen> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.purple[900],
-            title: Text('Hello ${globals.userName}'),
+            title: Text(
+              'Hello ${globals.userName}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
-                  navigateToSignUp(context);
+                  Future.delayed(
+                    Duration.zero,
+                    () {
+                      navigateToSignUpPage(context);
+                    },
+                  );
                 },
               ),
               PopupMenuButton<String>(
@@ -79,27 +88,25 @@ class SplashScreenState extends State<SplashScreen> {
 
         //child: Scaffold(
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 95, vertical: 150),
           child: FloatingActionButton.extended(
             onPressed: () {
-              /*Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => homepage(),
-              )
-              );*/
+              navigateToCategoriesPage(context);
             },
-            label: Text('Start Game'),
+            label: Text(
+              'Start Game',
+              style: TextStyle(fontSize: 20),
+            ),
             icon: Icon(Icons.videogame_asset),
             backgroundColor: Colors.purple[900],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Colors.purple)),
           ),
         ),
       ),
     );
   }
-}
-
-Future navigateToSignUp(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SignUpPage()));
 }
 
 void choiceAction(String choice) {
@@ -112,4 +119,14 @@ void choiceAction(String choice) {
   } else if (choice == Constants.FAQ) {
     print('FAQ');
   }
+}
+
+Future navigateToSignUpPage(context) async {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => SignUpPage()));
+}
+
+Future navigateToCategoriesPage(context) async {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => Categories()));
 }

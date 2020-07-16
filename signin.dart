@@ -37,12 +37,17 @@ class SignIn extends State<SignInPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Ultra Trivia',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            'UltraTrivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.purple[900],
         ),
         body: new Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.deepPurple, Colors.purple])),
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 150),
           child: Column(
             children: <Widget>[
@@ -54,7 +59,11 @@ class SignIn extends State<SignInPage> {
                       globals.userID = '${user.data.userID}';
                       globals.userName = '${user.data.userName}';
                       if (globals.userID == '-1')
-                        return Text('Invalid Username/Password');
+                        return Text('Invalid Username/Password',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white));
 
                       Future.delayed(
                         Duration.zero,
@@ -64,9 +73,18 @@ class SignIn extends State<SignInPage> {
                       );
                       //return Text(globals.userID); //Text(user.data.userID);
                     } else if (user.hasError) {
-                      return Text("${user.error}");
+                      return Text(
+                        "${user.error}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white),
+                      );
                     }
-                    return Text("Server Response");
+                    return Text(
+                      "Server Response",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    );
                   },
                 ),
               ),
@@ -75,9 +93,10 @@ class SignIn extends State<SignInPage> {
                 child: TextFormField(
                   controller: usernameController,
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
+                    icon: Icon(Icons.person, color: Colors.white),
                     hintText: 'Enter Username',
-                    labelText: 'Username',
+                    //labelText: 'Username',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -87,16 +106,20 @@ class SignIn extends State<SignInPage> {
                   obscureText: true,
                   controller: passwordController,
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.lock),
+                    icon: Icon(Icons.lock, color: Colors.white),
                     hintText: 'Enter Password',
-                    labelText: 'Password',
+                    //labelText: 'Password',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 10.0, 120.0, 0.0),
                 child: Link(
-                  child: Text('Forgot Password?'),
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   url: 'http://www.ultracontacts.com',
                 ),
               ),
@@ -104,7 +127,7 @@ class SignIn extends State<SignInPage> {
           ),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 210.0),
+          padding: const EdgeInsets.symmetric(vertical: 200.0, horizontal: 20),
           child: FloatingActionButton.extended(
             onPressed: () {
               setState(() {
@@ -112,9 +135,15 @@ class SignIn extends State<SignInPage> {
                     fetchUser(usernameController.text, passwordController.text);
               });
             },
-            label: Text('Sign In'),
+            label: Text(
+              'Sign In',
+              style: TextStyle(fontSize: 15),
+            ),
             icon: Icon(Icons.thumb_up),
-            backgroundColor: Colors.deepPurpleAccent,
+            backgroundColor: Colors.purple[900],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                side: BorderSide(color: Colors.purple)),
           ),
         ),
       ),
@@ -129,7 +158,7 @@ Future navigateToSignUp(context) async {
 
 Future navigateToSplashScreen(context) async {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SplashScreen()));
+      context, MaterialPageRoute(builder: (context) => splashscreen()));
 }
 
 /*_
