@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+//const BASE_URL = 'http://localhost:5000/';
+
 function CardUI()
 {
     var card = '';
@@ -15,9 +18,7 @@ function CardUI()
     var firstName = ud.firstName;
     var lastName = ud.lastName;
 
-
-
-    const addCard = async event =>
+    const addCard = async event => 
     {
 	    event.preventDefault();
 
@@ -26,7 +27,6 @@ function CardUI()
         try
         {
             const response = await fetch(BASE_URL + 'api/addcard',
-           //const response = await fetch('http://localhost:5000/api/searchcards',
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var txt = await response.text();
@@ -48,74 +48,70 @@ function CardUI()
 
 	};
 
+  const searchCard = async event => 
+  {
+      event.preventDefault();
+        
+      var js = '{"userId":"'+userId+'","search":"'+search.value+'"}';
 
-    const searchCard = async event =>
-    {
-        event.preventDefault();
+      try
+      {
+          const response = await fetch(BASE_URL + 'api/searchcards',
+          {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
-        var js = '{"userId":"'+userId+'","search":"'+search.value+'"}';
+          var txt = await response.text();
+          var res = JSON.parse(txt);
+          var _results = res.results;
+          var resultText = '';
+          for( var i=0; i<_results.length; i++ )
+          {
+              resultText += _results[i];
+              if( i < _results.length - 1 )
+              {
+                  resultText += ', ';
+              }
+          }
+          setResults('Card(s) have been retrieved');
+          setCardList(resultText);
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          setResults(e.toString());
+      }
+  };
 
-        try
-        {
-            const response = await fetch('http://localhost:5000/api/searchcards',
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var txt = await response.text();
-            var res = JSON.parse(txt);
-            var _results = res.results;
-            var resultText = '';
-            for( var i=0; i<_results.length; i++ )
-            {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
-            }
-            setResults('Card(s) have been retrieved');
-            setCardList(resultText);
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            setResults(e.toString());
-        }
-    };
-
-    const goProfile = async event =>
+  const goProfile = async event =>
     {
         window.location.href = '/profile';
     };
-	const Faq = async event =>
+
+	const faq = async event =>
     {
-        window.location.href = '/Faq';
+        window.location.href = '/faq';
     };
 
-
-
-    return(
-        <div id="cardUIDiv">
-        <br />
-        <button type="button" id="ProfilePage" class="buttons"
-          onClick={goProfile}> Profile </button><br />
-        <br />
-        <button type="button" id="FaqPage" class="buttons"
-          onClick={Faq}> FAQ </button><br />
-        <br />
-        <input type="text" id="searchText" placeholder="Card To Search For"
-          ref={(c) => search = c} />
-        <button type="button" id="searchCardButton" class="buttons"
-          onClick={searchCard}> Search Card</button><br />
-        <span id="cardSearchResult">{searchResults}</span>
-        <p id="cardList">{cardList}</p><br /><br />
-        <input type="text" id="cardText" placeholder="Card To Add"
-          ref={(c) => card = c} />
-        <button type="button" id="addCardButton" class="buttons"
-          onClick={addCard}> Add Card </button><br />
-        <span id="cardAddResult">{message}</span>
-      </div>
-
-    );
+  return(
+    <div id="cardUIDiv">
+      <br />
+      <button type ="button" id="ProfilePage" class="buttons"
+        onclick={goProfile}> Profile </button><br />
+      <button type="button" id="FaqPage" class="buttons"
+        onCLick={faq}> FAQ </button><br />
+      <br />
+      <input type="text" id="searchText" placeholder="Card To Search For" 
+        ref={(c) => search = c} />
+      <button type="button" id="searchCardButton" class="buttons" 
+        onClick={searchCard}> Search Card</button><br />
+      <span id="cardSearchResult">{searchResults}</span>
+      <p id="cardList">{cardList}</p><br /><br />
+      <input type="text" id="cardText" placeholder="Card To Add" 
+        ref={(c) => card = c} />
+      <button type="button" id="addCardButton" class="buttons" 
+        onClick={addCard}> Add Card </button><br />
+      <span id="cardAddResult">{message}</span>
+    </div>
+  );
 }
 
 export default CardUI;
