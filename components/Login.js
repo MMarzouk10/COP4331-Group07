@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
-//const BASE_URL = 'http://localhost:5000/';
-
 function Login()
 {
     var loginName;
@@ -45,6 +42,13 @@ function Login()
             return;
         }    
     };
+    const doSignup = async event => 
+    {
+        
+                window.location.href = '/signup';
+         
+    };
+    
 
 
     return(
@@ -55,6 +59,8 @@ function Login()
         <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
         <input type="submit" id="loginButton" class="buttons" value = "Do It"
           onClick={doLogin} />
+          <input type="submit" id="loginButton" class="buttons" value = "Signup?"
+          onClick={doSignup} />
         </form>
         <span id="loginResult">{message}</span>
      </div>
