@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PageTitle() {
+export default function Faq() {
   const classes = useStyles();
 
   return (
