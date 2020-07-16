@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
-//FOR LOCAL TESTING USE LOCALHOST URL
 //const BASE_URL = 'http://localhost:5000/';
 
 function Login()
@@ -47,12 +46,6 @@ function Login()
         }    
     };
 
-    const doSignup = async event => 
-    {
-        
-                window.location.href = '/signup';
-         
-    };
 
     return(
       <div id="loginDiv">
@@ -62,8 +55,6 @@ function Login()
         <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
         <input type="submit" id="loginButton" class="buttons" value = "Do It"
           onClick={doLogin} />
-          <input type="submit" id="loginButton" class="buttons" value = "Signup?"
-          onClick={doSignup} />
         </form>
         <span id="loginResult">{message}</span>
      </div>
