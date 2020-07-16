@@ -23,7 +23,7 @@ function App() {
         <Route path="/profile" exact>
           <ProfilePage />
         </Route>
-        <Route path="/faq" exact>
+        <Route path="/Faq" exact>
           <FaqPage />
         </Route>
         <Redirect to="/" />
