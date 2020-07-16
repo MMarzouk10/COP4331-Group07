@@ -2,17 +2,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require("nodemailer");
+const math = require("mathjs");
 
 //SETUP FOR EMAIL VERIFICATION
-//var smtpTransport = nodemailer.createTransport({
-//  service: "Gmail",
-//  auth: {
-//    user:"",
-//    pass: ""
-//  }
-//});
+var smtpTransport = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user:"UltraTrivia@gmail.com",
+    pass: "cop4331pass"
+  }
+});
 
-//var rand, mailOptions, host, link;
+var rand, mailOptions, host, link;
+
+//var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 //END EMAIL VERIFICATION
 
 /////////////////////////////////////////
@@ -110,32 +113,33 @@ app.post('/api/signup', async (req, res, next) =>
   }
 
   //EMAIL VERIFICATION
-  //rand = MATH.floor((MATH.random() * 100) + 54);//Generate random token
-  //link = "http://"+req.get('host')+"/verify?id="+rand;
-  //mailOptions={
-  //  to: email,
-  //  subject: "Please confirm your email account",
-  //  html: "Hello, <br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-  //}
+  rand = math.floor((math.random() * 100) + 54);//Generate random token
+  link = "http://"+req.get('host')+"/verify?id="+rand;
+  mailOptions={
+  //  from: '"Ultra Trivia" <UltraTrivia@verification.com>,
+    to: email,
+    subject: "Please confirm your email account",
+    html: "Hello, <br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+  };
 
-  //console.log(mailOptions);
-  //smtpTransport.sendMail(mailOptions, function(error, response){
-  // if (error){
-  //    console.log(error);
-  //    res.end("error");
-  //  }
-  //  else{
-  //    console.log("Email sent: " + response.message);
-  //    res.end("sent");
-  //  }
-  //});
+  console.log(mailOptions);
+  smtpTransport.sendMail(mailOptions, function(error, response){
+   if (error){
+      console.log(error);
+      res.end("error");
+    }
+    else{
+      console.log("Email sent: " + response.message);
+      res.end("sent");
+    }
+  });
   //END EMAIL VERIFICATION
 
   var ret = {error:error};
   res.status(200).json(ret);
 });
 
-/*app.get('/api/verify', function(req, res){
+app.get('/api/verify', function(req, res){
   
   console.log(req.protocol+"://"+req.get('host'));
 
@@ -144,6 +148,8 @@ app.post('/api/signup', async (req, res, next) =>
     if (req.query.id==rand){
       console.log("Email is verified");
       res.end("<h1>Email "+mailOptions.to+"has been successfully verified");
+      const db = client.db();
+      db.collection('users').update({Email: mailOptions.to}, {$set: {Flag:true}});//Update flag
     }
     else{
       console.log("Email is not verified");
@@ -151,10 +157,9 @@ app.post('/api/signup', async (req, res, next) =>
     }
   }
   else{
-    res.end("<h1>Reques is from unknown source");
+    res.end("<h1>Request is from unknown source");
   }
-})
-*/
+});
 
 app.post('/api/forgotpassword', async (req, res, next) =>
 {
@@ -182,6 +187,8 @@ app.post('/api/login', async (req, res, next) =>
 
   var id = -1;
   var loginName = '';
+
+  //ADD TO VERIFY THE FLAG ONCE EMAIL VERIFICATION IS WORKING
 
   if( results.length > 0 )
   {
@@ -351,7 +358,6 @@ app.post('/api/getQuestion', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-
 app.post('/api/answerQuestion', async (req, res, next) => 
 {
   // incoming: question, answer
@@ -404,8 +410,6 @@ app.post('/api/incrementPoints', async (req, res, next) =>
   var ret = { error: error };
   res.status(200).json(ret);
 });
-
-
 
 app.use((req, res, next) => 
 {
