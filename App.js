@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import CardPage from './pages/CardPage';
 import ProfilePage from './pages/ProfilePage';
 import FaqPage from './pages/FaqPage';
+
 function App() {
   return (
     <Router >
