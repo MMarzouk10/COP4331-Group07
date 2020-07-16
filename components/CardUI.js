@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+//const BASE_URL = 'https://mernstack-1.herokuapp.com/';
 function CardUI()
 {
     var card = '';
@@ -26,6 +26,7 @@ function CardUI()
         try
         {
             const response = await fetch(BASE_URL + 'api/addcard',
+           //const response = await fetch('http://localhost:5000/api/searchcards',
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var txt = await response.text();
@@ -85,9 +86,9 @@ function CardUI()
     {
         window.location.href = '/profile';
     };
-	const faq = async event =>
+	const Faq = async event =>
     {
-        window.location.href = '/faq';
+        window.location.href = '/Faq';
     };
 
 
