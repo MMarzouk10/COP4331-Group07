@@ -1,6 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const nodemailer = require("nodemailer");
+
+//SETUP FOR EMAIL VERIFICATION
+//var smtpTransport = nodemailer.createTransport({
+//  service: "Gmail",
+//  auth: {
+//    user:"",
+//    pass: ""
+//  }
+//});
+
+//var rand, mailOptions, host, link;
+//END EMAIL VERIFICATION
 
 /////////////////////////////////////////
 // Added for Heroku deployment.
@@ -84,7 +97,7 @@ app.post('/api/signup', async (req, res, next) =>
 
   const {login, email, password} = req.body;
 
-  const newUser = {Login:login,Email:email,Password:password, Flag:false};
+  const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0};
 
   try
   {
@@ -96,9 +109,64 @@ app.post('/api/signup', async (req, res, next) =>
     error = e.toString();
   }
 
+  //EMAIL VERIFICATION
+  //rand = MATH.floor((MATH.random() * 100) + 54);//Generate random token
+  //link = "http://"+req.get('host')+"/verify?id="+rand;
+  //mailOptions={
+  //  to: email,
+  //  subject: "Please confirm your email account",
+  //  html: "Hello, <br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+  //}
+
+  //console.log(mailOptions);
+  //smtpTransport.sendMail(mailOptions, function(error, response){
+  // if (error){
+  //    console.log(error);
+  //    res.end("error");
+  //  }
+  //  else{
+  //    console.log("Email sent: " + response.message);
+  //    res.end("sent");
+  //  }
+  //});
+  //END EMAIL VERIFICATION
+
   var ret = {error:error};
   res.status(200).json(ret);
 });
+
+/*app.get('/api/verify', function(req, res){
+  
+  console.log(req.protocol+"://"+req.get('host'));
+
+  if((req.protocol+"://"+req.get('host'))== ("http://"+host)){
+    console.log("Domain is matched. Information is from an authentic email.");
+    if (req.query.id==rand){
+      console.log("Email is verified");
+      res.end("<h1>Email "+mailOptions.to+"has been successfully verified");
+    }
+    else{
+      console.log("Email is not verified");
+      res.end("<h1>Bad Request</h1>");
+    }
+  }
+  else{
+    res.end("<h1>Reques is from unknown source");
+  }
+})
+*/
+
+app.post('/api/forgotpassword', async (req, res, next) =>
+{
+  //incoming: email
+  //outgoing: confirmation
+
+  var error = '';
+
+  const{email} = req.body;
+
+//SEND EMAIL LINK TO RESET PASSWORD
+})
 
 app.post('/api/login', async (req, res, next) => 
 {
@@ -115,7 +183,6 @@ app.post('/api/login', async (req, res, next) =>
   var id = -1;
   var loginName = '';
 
-//KEEPS GOING TO ELSE STATEMENT!!!
   if( results.length > 0 )
   {
     id = results[0]._id;
@@ -181,17 +248,17 @@ app.post('/api/changelogin', async (req, res, next) =>
 
 app.post('/api/changepassword', async (req, res, next) =>
 {
-  // incoming: userId, newPassword
+  // incoming: userId, newPassword, oldPassword
   // outgoing: error
 
   var error = '';
 
-  const {userId, newPassword} = req.body;//Get user and new password login from body
+  const {userId, newPassword, oldPassword} = req.body;//Get userId, old password, and new password login from body
 
   const db = client.db();//set client db
 
   try{
-    db.collection('users').update({_id: userId}, {$set: {Password: newPassword}}); //update the password field
+    db.collection('users').update({_id:userId, Password:oldPassword }, {$set: {Password: newPassword}}); //update the password field
   }
   catch(e){
     error = e.toString();
