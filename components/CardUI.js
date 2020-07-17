@@ -102,7 +102,7 @@ function CardUI()
     }; 
 
     return(
-        <div id="cardUIDiv" style={{width: '100%', height: '100%', backgroundColor:'purple', position:'absolute'}}>
+        <div id="cardUIDiv" style={{width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute'}}>
         <h1 style={{color:'white'}}>WELCOME user</h1>
         <span id="userName">Logged In As John Doe </span><br />
         <button style={{backgroundColor:'lightblue', width: '135px'}} type="button" id="logoutButton" class="buttons" 
