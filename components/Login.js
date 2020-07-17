@@ -53,19 +53,31 @@ function Login()
                 window.location.href = '/signup';
          
     };
+    const changePassword = async event => 
+    {
+        
+                window.location.href = '/recovery';
+         
+    };
 
     return(
-      <div id="loginDiv">
-        <form onSubmit={doLogin}>
-        <span id="inner-title">PLEASE LOG IN</span><br />
-        <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
-        <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-        <input type="submit" id="loginButton" class="buttons" value = "Do It"
+      <div id="loginDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundColor:'purple', position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
+      <form onSubmit={doLogin}>
+      <h1 style={{color:'white'}}>WELCOME TO ULTRA TRIVIA</h1>
+      <span style={{color:'gray'}} id="inner-title"  >PLEASE LOG IN</span><br />
+      <input style={{width: '250px',justifyContent: 'center', alignItems: 'center'}} type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
+      <input style={{width:'250px'}} type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
+      <input style={{backgroundColor:'lightblue', width: '135px'}} type="submit" id="loginButton" class="buttons" value = "Login"
           onClick={doLogin} />
-          <input type="submit" id="loginButton" class="buttons" value = "Signup?"
+      <input style={{backgroundColor:'lightblue', width: '135px'}} type="submit" id="loginButton" class="buttons" value = "Signup"
           onClick={doSignup} />
-        </form>
-        <span id="loginResult">{message}</span>
+      <br />
+      <input style={{width: '270px',justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue'}} type="submit" id="forgotPasswordButton" class="buttons" value = "Forgot Password?"
+          onClick={changePassword} />
+      </form>
+      <span id="loginResult">{message}</span>
      </div>
     );
 };
+
+export default Login;
