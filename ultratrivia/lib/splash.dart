@@ -6,6 +6,7 @@ import 'dart:io';
 import 'user.dart';
 import 'signup.dart';
 import 'globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 
 class splashscreen extends StatefulWidget {
   @override
@@ -56,7 +57,15 @@ class _splashscreenState extends State<splashscreen> {
                   return Constants.choices.map((String choice) {
                     return PopupMenuItem<String>(
                       value: choice,
-                      child: Text(choice),
+                      child: new InkWell(
+                        onTap: () {
+                          if (choice == 'FAQ')
+                            _launchFAQ();
+                          else
+                            _launchProfile();
+                        },
+                        child: Text(choice),
+                      ),
                     );
                   }).toList();
                 },
@@ -129,4 +138,22 @@ Future navigateToSignUpPage(context) async {
 Future navigateToCategoriesPage(context) async {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => Categories()));
+}
+
+_launchFAQ() async {
+  const url = 'https://mernstack-1.herokuapp.com/FAQ';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_launchProfile() async {
+  const url = 'http://mernstack-1.herokuapp.com/Profile';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
