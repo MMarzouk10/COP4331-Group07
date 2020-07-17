@@ -61,7 +61,7 @@ function Login()
     };
 
     return(
-      <div id="loginDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundColor:'purple', position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
+      <div id="loginDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
       <form onSubmit={doLogin}>
       <h1 style={{color:'white'}}>WELCOME TO ULTRA TRIVIA</h1>
       <span style={{color:'gray'}} id="inner-title"  >PLEASE LOG IN</span><br />
