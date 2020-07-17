@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Faq() {
+export default function PageTitle() {
   const classes = useStyles();
 
   return (
@@ -61,9 +61,6 @@ export default function Faq() {
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name} width="700">
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
               <StyledTableCell align="center">{row.Questions}</StyledTableCell>
               <StyledTableCell align="center">{row.Answers}</StyledTableCell>
               
@@ -73,6 +70,7 @@ export default function Faq() {
       </Table>
     </TableContainer>
   );
+  
 }
 
 
