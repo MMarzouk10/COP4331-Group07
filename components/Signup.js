@@ -56,7 +56,7 @@ function signup()
 
 
     return(
-      <div id="loginDiv">
+      <div id="signupDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
         <form onSubmit={doSignup}>
         <span id="inner-title">PLEASE SIGN UP</span><br />
         <input type="text" id="emailName" placeholder="email" ref={(c) => emailName = c} /><br />
