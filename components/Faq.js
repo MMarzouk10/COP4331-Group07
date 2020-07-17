@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: 'purple',
     color: theme.palette.common.white,
   },
   body: {
@@ -49,6 +49,7 @@ export default function PageTitle() {
   const classes = useStyles();
 
   return (
+    <div id="FaqDiv" style={{width: '100%', height: '100%', backgroundColor:'purple', position:'absolute'}}>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -69,6 +70,7 @@ export default function PageTitle() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
   
 }
