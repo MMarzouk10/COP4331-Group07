@@ -7,6 +7,8 @@ import SignupPage from './pages/SignupPage';
 import CardPage from './pages/CardPage';
 import ProfilePage from './pages/ProfilePage';
 import FaqPage from './pages/FaqPage';
+import RecoveryPage from './pages/RecoveryPage';
+import LeaderboardPage from './pages/LeaderboardPage'
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
         </Route>
         <Route path="/profile" exact>
           <ProfilePage />
+        </Route>
+        <Route path="/recovery" exact>
+          <RecoveryPage />
+        </Route>
+        <Route path="/leaderboard" exact>
+          <LeaderboardPage />
         </Route>
         <Route path="/faq" exact>
           <FaqPage />
