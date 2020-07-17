@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 
 function ProfileUI()
 {
-    
+  var email;
+  var password;
 
     const changePassword = async event => 
     {
 	    
 
-	};
+	  };
 
-
-    const changeEmail = async event => 
-    {
-        
-    };
 
     const goHome = async event => 
     {
@@ -24,16 +20,15 @@ function ProfileUI()
 
 
     return(
-        <div id="profileUIDiv">
+        <div id="profileUIDiv" style={{width: '100%', height: '100%', backgroundColor:'purple', position:'absolute'}} >
         <h1 id="title"> Profile Page </h1>
-        <button type="button" id="homePage" class="buttons" 
+        <button style={{backgroundColor:'lightblue', width: '135px'}} type="button" id="homePage" class="buttons" 
           onClick={goHome}> Home </button><br />
         <br />
-        <button type="button" id="changePassword" class="buttons" 
+        <input type="password" id="loginPassword" placeholder="Password" ref={(c) => password = c} /><br />
+        <button style={{backgroundColor:'lightblue', width: '135px'}} type="button" id="changePassword" class="buttons" 
           onClick={changePassword}> Change Password </button><br />
         <br />
-        <button type="button" id="changeEmail" class="buttons" 
-          onClick={changeEmail}> Change Email </button><br />
       </div>
       
     );
