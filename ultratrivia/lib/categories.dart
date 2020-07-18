@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ultratrivia/gameplay.dart';
-//import 'package:ultra_trivia/quizpage.dart';
+import 'globals.dart' as globals;
 
 class Categories extends StatefulWidget {
   @override
@@ -31,13 +31,16 @@ class CategoriesState extends State<Categories> {
       ),
       child: InkWell(
         onTap: () {
-          if (langname == "Sports") navigateToGamePlayPage(context);
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-          // in changelog 1 we will pass the langname name to ther other widget class
-          // this name will be used to open a particular JSON file
-          // for a particular language
-          //builder: (context) => getjson(langname),
-          //),);
+          if (langname == "Coding")
+            globals.category = "Coding";
+          else if (langname == "Sports")
+            globals.category = "Sports";
+          else if (langname == "History")
+            globals.category = "History";
+          else
+            globals.category = "Pop Culture";
+
+          navigateToGamePlayPage(context);
         },
         child: Material(
           color: Colors.purple[900],

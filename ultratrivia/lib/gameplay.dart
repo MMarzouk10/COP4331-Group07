@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ultratrivia/questions.dart';
 //import 'package:link/link.dart';
 //import 'dart:io';
 //import 'package:http/http.dart';
@@ -18,6 +19,16 @@ class GamePlayPage extends StatefulWidget {
 }
 
 class GamePlay extends State<GamePlayPage> {
+  //List<String> usedQuestions = new List<String>();
+  String usedQuestions = '0';
+  Future<Questions> futureQuestion;
+
+  @override
+  void initState() {
+    fetchQuestion(globals.category, usedQuestions);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,13 +58,31 @@ class GamePlay extends State<GamePlayPage> {
                     child: Column(
                       //mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const ListTile(
-                          //leading: Icon(Icons.query_builder),
-                          title: Text('This is a Trivia Question?',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                          //subtitle: Text('Trivia Question?'),
+                        Center(
+                          child: FutureBuilder<Questions>(
+                            future: futureQuestion,
+                            builder: (context, question) {
+                              if (question.hasData) {
+                                usedQuestions = '${question.data.qNum}';
+                                return Text(
+                                  '${question.data.question}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                );
+                              } else if (question.hasError)
+                                return Text(
+                                  "${question.error}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                );
+
+                              return CircularProgressIndicator();
+                            },
+                          ),
                         ),
                         ButtonBar(
                           alignment: MainAxisAlignment.center,
