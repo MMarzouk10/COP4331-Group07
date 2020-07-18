@@ -1,11 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const nodemailer = require("nodemailer");
-const math = require("mathjs");
+//const nodemailer = require("nodemailer");
+//const math = require("mathjs");
 
 //SETUP FOR EMAIL VERIFICATION
-var smtpTransport = nodemailer.createTransport({
+/*
+  var smtpTransport = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user:"UltraTrivia@gmail.com",
@@ -17,6 +18,7 @@ var rand, mailOptions, host, link;
 
 //var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 //END EMAIL VERIFICATION
+*/
 
 /////////////////////////////////////////
 // Added for Heroku deployment.
@@ -98,9 +100,11 @@ app.post('/api/signup', async (req, res, next) =>
 
   var error = '';
 
-  const {login, email, password} = req.body;
+  //const {login, email, password} = req.body;
+  const {email} = req.body;
 
-  const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0};
+  //const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0, Token:null};
+  const newUser = {Email:email, Points:0};
 
   try
   {
@@ -112,9 +116,13 @@ app.post('/api/signup', async (req, res, next) =>
     error = e.toString();
   }
 
+  /*
   //EMAIL VERIFICATION
   rand = math.floor((math.random() * 100) + 54);//Generate random token
   link = "http://"+req.get('host')+"/verify?id="+rand;
+  console.log("Random Value"+rand);
+  const datab = client.db();
+  const update = datab.collection('users').update({Email:email}, {$set:{Token:rand}});//set token to email
   mailOptions={
   //  from: '"Ultra Trivia" <UltraTrivia@verification.com>,
     to: email,
@@ -134,31 +142,10 @@ app.post('/api/signup', async (req, res, next) =>
     }
   });
   //END EMAIL VERIFICATION
+  */
 
   var ret = {error:error};
   res.status(200).json(ret);
-});
-
-app.get('/api/verify', function(req, res){
-  
-  console.log(req.protocol+"://"+req.get('host'));
-
-  if((req.protocol+"://"+req.get('host'))== ("http://"+host)){
-    console.log("Domain is matched. Information is from an authentic email.");
-    if (req.query.id==rand){
-      console.log("Email is verified");
-      res.end("<h1>Email "+mailOptions.to+"has been successfully verified");
-      const db = client.db();
-      db.collection('users').update({Email: mailOptions.to}, {$set: {Flag:true}});//Update flag
-    }
-    else{
-      console.log("Email is not verified");
-      res.end("<h1>Bad Request</h1>");
-    }
-  }
-  else{
-    res.end("<h1>Request is from unknown source");
-  }
 });
 
 app.post('/api/forgotpassword', async (req, res, next) =>
@@ -299,17 +286,16 @@ app.post('/api/changemail', async (req, res, next) =>
 
 app.post('/api/getPoints', async (req, res, next) => 
 {
-  // incoming: UserId
+  // incoming: login
   // outgoing: points, error
 
  var error = '';
 
-  const { userId } = req.body;
+  const { email } = req.body;
 
   const db = client.db();
-  const results = await db.collection('users').find({UserId:userId}).toArray();
+  const results = await db.collection('users').find({Email:email}).toArray();
 
-  var id = -1;
   var points = -1;
 
   if( results.length > 0 )
@@ -317,44 +303,23 @@ app.post('/api/getPoints', async (req, res, next) =>
     points = results[0].Points;
   }
 
-  var ret = { Points:points, error:''};
+  var ret = { Points:points, error:error};
   res.status(200).json(ret);
 });
 
-app.post('/api/getQuestion', async (req, res, next) => 
+app.post('/api/getQuestions', async (req, res, next) => 
 {
   // incoming: category
   // outgoing: question, answer1 answer2, answer3, answer4
 
- var error = '';
+  var error = '';
 
   const { category, usedQuestions } = req.body;
-
 
   const db = client.db();
   const results = await db.collection('questions').find({Category:category}).toArray();
 
-  var question = '';
-  var option1 = '';
-  var option2 = '';
-  var option3 = '';
-  var option4 = '';
-
-  // Random question number
-  do 
-  {
-  	var qNum = Math.floor(Math.random() * results.length);
-  } while (usedQuestions.includes(qNum));
-
-  if( results.length > 0 )
-  {
-    question = results[qNum].Question;
-    option1 = results[qNum].Option1;
-    option2 = results[qNum].Option2;
-    option3 = results[qNum].Option3;
-    option4 = results[qNum].Option4;
-  }
-  var ret = { Quesiton:question, Option1:option1, option2:option2, Option3:option3, Option4:option4, QNum:qNum, error:''};
+  var ret = { QuestionArray : results, error:''};
   res.status(200).json(ret);
 });
 
@@ -363,7 +328,7 @@ app.post('/api/answerQuestion', async (req, res, next) =>
   // incoming: question, answer
   // outgoing: isCorrect
 
- var error = '';
+  var error = '';
 
   const { question, answer } = req.body;
 
@@ -374,17 +339,16 @@ app.post('/api/answerQuestion', async (req, res, next) =>
   if( results.length > 0 )
   {
     correctAnswer = results[0].Answer;
-
+  }
+  else
+  {
+    error = "Question not found";
+    isCorrect = false;
   }
 
   var isCorrect = answer.equals(correctAnswer);
 
-  var ret = { isCorrect:isCorrect, error:''};
-
-  if (isCorrect)
-  {
-  	// Call add points
-  }
+  var ret = { Correct: isCorrect, error:''};
 
   res.status(200).json(ret);
 });
@@ -394,13 +358,14 @@ app.post('/api/incrementPoints', async (req, res, next) =>
   // incoming: userId,
   // outgoing: error
 
-  const { userId } = req.body;
+  const {email, addVal} = req.body;
   var error = '';
+  var result;
 
   try
   {
     const db = client.db();
-    const result = db.collection('users').findAndModify({query: {UserId: userId}, update: {$inc: {Points: 1}}});
+    const result = db.collection('users').update({Email: userId}, {$inc: {Points: addVal}});
   }
   catch(e)
   {
@@ -408,6 +373,29 @@ app.post('/api/incrementPoints', async (req, res, next) =>
   }
 
   var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/api/setPoints', async (req, res, next) => 
+{
+  // incoming: email, points
+  // outgoing: error
+
+  const { email, points } = req.body;
+  var error = '';
+  var result = "Failed";
+
+  try
+  {
+    const db = client.db();
+    const result = db.collection('users').update({Email:email}, {$set: {Points:points}});
+  }
+  catch(e)
+  {
+    error = e.toString();
+  }
+
+  var ret = { Result:result, error: error };
   res.status(200).json(ret);
 });
 
