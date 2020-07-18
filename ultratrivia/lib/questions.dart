@@ -47,8 +47,8 @@ class Questions {
 
   factory Questions.fromJson(Map<String, dynamic> json) {
     return Questions(
-      question: json['Question'].toString(),
-      answerOne: json['Option1'].toString(),
+      question: json['Question'] as String,
+      answerOne: json['Option1'] as String,
       answerTwo: json['Option2'].toString(),
       answerThree: json['Option3'].toString(),
       answerFour: json['Option4'].toString(),

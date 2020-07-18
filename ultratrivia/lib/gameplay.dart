@@ -22,6 +22,8 @@ class GamePlay extends State<GamePlayPage> {
   //List<String> usedQuestions = new List<String>();
   String usedQuestions = '0';
   Future<Questions> futureQuestion;
+  Future<Questions> futureAnswers;
+  String res, resAction;
 
   @override
   void initState() {
@@ -96,48 +98,178 @@ class GamePlay extends State<GamePlayPage> {
                                   side: BorderSide(color: Colors.black),
                                 ),
                                 color: Colors.deepPurpleAccent,
-                                child: const Text('This is Answer #1'),
-                                onPressed: () {/* ... */},
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            new SizedBox(
-                              width: 300.0,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(color: Colors.black),
+                                child: Center(
+                                  child: FutureBuilder<Questions>(
+                                    future: futureAnswers,
+                                    builder: (context, answerOne) {
+                                      if (answerOne.hasData) {
+                                        usedQuestions =
+                                            '${answerOne.data.qNum}';
+                                        return Text(
+                                          '${answerOne.data.answerOne}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        );
+                                      } else if (answerOne.hasError)
+                                        return Text(
+                                          "${answerOne.error}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        );
+
+                                      return Text(
+                                          "Answer #1"); //CircularProgressIndicator();
+                                    },
+                                  ),
                                 ),
-                                color: Colors.deepPurpleAccent,
-                                child: const Text('This is Answer #2'),
-                                onPressed: () {/* ... */},
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            new SizedBox(
-                              width: 300.0,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(color: Colors.black),
-                                ),
-                                color: Colors.deepPurpleAccent,
-                                child: const Text('This is Answer #3'),
-                                onPressed: () {/* ... */},
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            new SizedBox(
-                              width: 300.0,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(color: Colors.black),
-                                ),
-                                color: Colors.deepPurpleAccent,
-                                child: const Text('This is Answer #4'),
                                 onPressed: () {
-                                  cardKey.currentState.toggleCard();
+                                  setState(() {
+                                    res = "Correct";
+                                    resAction = "Next Question";
+                                    cardKey.currentState.toggleCard();
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.deepPurpleAccent,
+                                child: Center(
+                                  child: FutureBuilder<Questions>(
+                                    future: futureAnswers,
+                                    builder: (context, answerTwo) {
+                                      if (answerTwo.hasData) {
+                                        usedQuestions =
+                                            '${answerTwo.data.qNum}';
+                                        return Text(
+                                          '${answerTwo.data.answerTwo}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        );
+                                      } else if (answerTwo.hasError)
+                                        return Text(
+                                          "${answerTwo.error}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        );
+
+                                      return Text(
+                                          "Answer #2"); //CircularProgressIndicator();
+                                    },
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    res = "Incorrect";
+                                    resAction = "Try Again";
+                                    cardKey.currentState.toggleCard();
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.deepPurpleAccent,
+                                child: Center(
+                                  child: FutureBuilder<Questions>(
+                                    future: futureAnswers,
+                                    builder: (context, answerThree) {
+                                      if (answerThree.hasData) {
+                                        usedQuestions =
+                                            '${answerThree.data.qNum}';
+                                        return Text(
+                                          '${answerThree.data.answerThree}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        );
+                                      } else if (answerThree.hasError)
+                                        return Text(
+                                          "${answerThree.error}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        );
+
+                                      return Text(
+                                          "Answer #3"); //CircularProgressIndicator();
+                                    },
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    res = "Incorrect";
+                                    resAction = "Try Again";
+                                    cardKey.currentState.toggleCard();
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            new SizedBox(
+                              width: 300.0,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.deepPurpleAccent,
+                                child: Center(
+                                  child: FutureBuilder<Questions>(
+                                    future: futureAnswers,
+                                    builder: (context, answerFour) {
+                                      if (answerFour.hasData) {
+                                        usedQuestions =
+                                            '${answerFour.data.qNum}';
+                                        return Text(
+                                          '${answerFour.data.answerFour}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        );
+                                      } else if (answerFour.hasError)
+                                        return Text(
+                                          "${answerFour.error}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        );
+
+                                      return Text(
+                                          "Answer #4"); //CircularProgressIndicator();
+                                    },
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    res = "Incorrect";
+                                    resAction = "Try Again";
+                                    cardKey.currentState.toggleCard();
+                                  });
                                 },
                               ),
                             ),
@@ -163,13 +295,15 @@ class GamePlay extends State<GamePlayPage> {
                     child: Column(
                       //mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const ListTile(
+                        ListTile(
                           //leading: Icon(Icons.stop),
                           title: Center(
                             child: Text(
-                              'Incorrect',
+                              '$res',
                               style: TextStyle(
-                                  color: Colors.red,
+                                  color: res == "Correct"
+                                      ? Colors.green
+                                      : Colors.red,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
@@ -177,7 +311,7 @@ class GamePlay extends State<GamePlayPage> {
                           //subtitle: Text('Trivia Question?'),
                         ),
                         FlatButton(
-                          child: Text('Try Again'),
+                          child: Text('$resAction'),
                           onPressed: () {
                             cardKey.currentState.toggleCard();
                           },
