@@ -51,7 +51,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PageTitle() {
+export default function LeaderboardUI() {
   const classes = useStyles();
 
   return (
@@ -81,7 +81,6 @@ export default function PageTitle() {
     </TableContainer>
     </div>
   );
-  
 }
 
 
