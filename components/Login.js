@@ -21,7 +21,8 @@ export default () => {
     user.authenticateUser(authDetails, {
       onSuccess: data => {
         console.log("onSuccess:", data);
-       
+        var user = {email:email};
+        localStorage.setItem('user_data', JSON.stringify(user));
         window.location.href = '/cards';
       },
 
