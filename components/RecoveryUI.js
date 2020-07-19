@@ -7,8 +7,10 @@ function RecoveryUI()
 
     const changePassword = async event => 
     {
-	
-  	};
+	    
+
+	};
+
 
     const changeEmail = async event => 
     {
@@ -19,6 +21,8 @@ function RecoveryUI()
     {
         window.location.href = '/';
     };
+
+
 
     return(
         <div id="profileUIDiv" style={{width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute'}}>

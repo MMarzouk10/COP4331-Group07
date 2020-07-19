@@ -10,8 +10,9 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: 'black',
-    color: theme.palette.common.white,
+    backgroundColor: '#FF69B4',
+    color: 'theme.palette.common.white',
+    fontWeight : 'bold',
   },
   body: {
     fontSize: 14,
@@ -22,7 +23,7 @@ const StyledTableRow = withStyles((theme) => ({
   width: 700,
      root: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: 'lightpink',
     },
   },
 }))(TableRow);
@@ -45,11 +46,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Faq() {
+const goHome = async event => 
+    {
+        window.location.href = '/home';
+    };
+
+export default function PageTitle() {
   const classes = useStyles();
 
   return (
-    <div id="FaqDiv" style={{width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute'}}>
+    <div id="faqDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
+    
+    <form style={{ width:700, justifyContent: 'center', alignItems: 'center'}}>
+    <h1 style={{color:'white', fontSize: 48}}>FAQ</h1>
+     <br />
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -70,9 +80,13 @@ export default function Faq() {
         </TableBody>
       </Table>
     </TableContainer>
+    <br />
+    <button style={{backgroundColor:'lightblue', fontSize: 24, height: 40, width: '250px', justifyContent: 'center', alignItems: 'center'}} type="button" id="faqPage" class="buttons" 
+          onClick={goHome}> Home </button><br />
+    </form>
     </div>
   );
+  
 }
-
 
 

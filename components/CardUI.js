@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const BASE_URL = 'https://mernstack-1.herokuapp.com/';
-//const BASE_URL = 'http://localhost:5000/';
+//const BASE_URL = 'https://mernstack-1.herokuapp.com/';
+const BASE_URL = 'http://localhost:5000/';
 
 function CardUI()
 {

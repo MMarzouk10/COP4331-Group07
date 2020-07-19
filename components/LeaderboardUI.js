@@ -10,8 +10,9 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: 'black',
-    color: theme.palette.common.white,
+    backgroundColor: '#FF69B4',
+    color: 'theme.palette.common.white',
+    fontWeight : 'bold',
   },
   body: {
     fontSize: 14,
@@ -22,7 +23,7 @@ const StyledTableRow = withStyles((theme) => ({
   width: 300,
      root: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: 'lightpink',
     },
   },
 }))(TableRow);
@@ -51,37 +52,66 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LeaderboardUI() {
+const doLogout = event => 
+  {
+    event.preventDefault();
+  
+    localStorage.removeItem("user_data")
+    window.location.href = '/';
+  }; 
+
+  const goProfile = async event =>
+    {
+        window.location.href = '/profile';
+  };
+
+	const faq = async event =>
+    {
+        window.location.href = '/faq';
+  };
+
+export default function PageTitle() {
   const classes = useStyles();
 
   return (
-    <div id="leaderboardDiv" style={{width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute'}}>
-    <h2 >Ultra Trivia - Leaderboard</h2>
+    <div id="leaderDIV" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
+    <form style={{ width:700, justifyContent: 'center', alignItems: 'center'}}>
+      <br />
+    <button style={{backgroundColor:'lightblue', fontSize: 24, height: 40, width: '125px', float: 'right'}} type="button" id="logoutButton" class="buttons" 
+           onClick={doLogout}> Log Out </button>
+        <button style={{backgroundColor:'lightblue', fontSize: 24, height: 40, width: '125px'}} type="button" id="profilePage" class="buttons" 
+          onClick={goProfile}> Profile </button>
+        <button style={{backgroundColor:'lightblue', fontSize: 24, height: 40, width: '125px', float: 'left'}} type="button" id="faqPage" class="buttons" 
+          onClick={faq}> FAQ </button>
+    <h1 style={{color:'white', fontSize: 48}} >Ultra Trivia - Leaderboard</h1>
+    <h4 style={{color:'white', fontSize: 24}} >Your High Score</h4>
+
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
-          <TableRow width= "50">
+          <TableRow >
             <StyledTableCell align="center" >Rank</StyledTableCell>
             <StyledTableCell align="center" >User</StyledTableCell>
             <StyledTableCell align="center" >Score</StyledTableCell>
-            
+
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.name} width="50">
-              
+            <StyledTableRow key={row.name} >
+
               <StyledTableCell align="center">{row.Rank}</StyledTableCell>
-              <StyledTableCell align="center">{row.User}</StyledTableCell>
+              <StyledTableCell align="center">{row.x}</StyledTableCell>
               <StyledTableCell align="center">{row.Points}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    </form>
     </div>
   );
+  
 }
-
 
 
