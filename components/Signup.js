@@ -1,74 +1,57 @@
 import React, { useState } from 'react';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
 const BASE_URL = 'https://mernstack-1.herokuapp.com/';
-//FOR LOCAL TESTING USE LOCALHOST URL
-//const BASE_URL = 'http://localhost:5000/';
 
-function signup()
-{
-    var loginName;
-    var loginPassword;
-    var emailName;
+    export default () => {
 
-   // const [message,setMessage] = useState('');
-
-    const doSignup = async event => 
-
+      const [email, setEmail] = useState('');
+      const [password, setPassword] = useState('');
     
-    {
-        
+      const poolData = {
+        UserPoolId: 'us-east-2_qzkz9I4xL',
+        ClientId: '2f4sc8c7580bo68jotflq4sr3l'
+      };
+    
+      const UserPool = new CognitoUserPool(poolData);
+    
+      const onSubmit = event => {
         event.preventDefault();
+    
+        UserPool.signUp(email, password, [], null, (err, data) => {
+          if (err) console.error(err);
+          console.log(data);
+        });
 
-        var js = '{"email":"'
-                + emailName.value
-                + '","login":"'
-            + loginName.value
-            + '","password":"'
-            + loginPassword.value +'"}';
+        var js = '{"email":"'+ email + '"}'; //saves email in a variable to send to API
 
-            try
+        try
         {    
-            const response = await fetch(BASE_URL + 'api/signup',
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var res = JSON.parse(await response.text());
-            
-            if( res.id > 0 )
-            {
-                //setMessage('User already exists');
-                alert("user exists already");
-            }
-            else
-            {
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
-
-               // setMessage('');
-                window.location.href = '/';
-            }
+        const response = fetch(BASE_URL + 'api/signup',
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});//API call
         }
         catch(e)
         {
             alert(e.toString());
             return;
-        }    
-    };
-
-
-    return(
-      <div id="signupDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
-        <form onSubmit={doSignup}>
-        <span id="inner-title">PLEASE SIGN UP</span><br />
-        <input type="text" id="emailName" placeholder="email" ref={(c) => emailName = c} /><br />
-        <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
-        <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-        <input type="submit" id="signupButton" class="buttons" value = "Sign Up"
-          onClick={doSignup} />
-
-        </form>
-        
-     </div>
-    );
+        }  
+      };
+      
+    return (
+        <div>
+          <form onSubmit={onSubmit}>
+            <input
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+            />
+    
+            <input
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+            />
+    
+            <button type='submit'>Signup</button> 
+          </form>
+        </div>
+      );
 };
-
-export default signup;
