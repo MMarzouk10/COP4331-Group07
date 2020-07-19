@@ -1,83 +1,60 @@
 import React, { useState } from 'react';
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import UserPool from "../UserPool";
 
-const BASE_URL = 'https://mernstack-1.herokuapp.com/';
-//FOR LOCAL TESTING USE LOCALHOST URL
-//const BASE_URL = 'http://localhost:5000/';
+export default () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-function Login()
-{
-    var loginName;
-    var loginPassword;
+  const onSubmit = event => {
+    event.preventDefault();
 
-    const [message,setMessage] = useState('');
+    const user = new CognitoUser({
+      Username: email,
+      Pool: UserPool
+    });
+    const authDetails = new AuthenticationDetails({
+      Username: email,
+      Password: password
+    });
 
-    const doLogin = async event => 
-    {
-        event.preventDefault();
+    user.authenticateUser(authDetails, {
+      onSuccess: data => {
+        console.log("onSuccess:", data);
+       
+        window.location.href = '/cards';
+      },
 
-        var js = '{"login":"'
-            + loginName.value
-            + '","password":"'
-            + loginPassword.value +'"}';
+      onFailure: err => {
+        console.error("onFailure:", err);
+        //alert("Confirm email");
+      },
 
-        try
-        {    
-            const response = await fetch(BASE_URL + 'api/login',
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+      newPasswordRequired: data => {
+        console.log("newPasswordRequired:", data);
+      }
+    });
+  };
+  const doSignup = async event => 
+  {
+      
+              window.location.href = '/signup';
+       
+  };
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input value={email} onChange={event => setEmail(event.target.value)} />
 
-            var res = JSON.parse(await response.text());
+        <input
+          value={password}
+          onChange={event => setPassword(event.target.value)}
+        />
 
-            if( res.id <= 0 )
-            {
-                setMessage('User/Password combination incorrect');
-            }
-            else
-            {
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
-
-                setMessage('');
-                window.location.href = '/cards';
-            }
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }    
-    };
-
-    const doSignup = async event => 
-    {
-        
-                window.location.href = '/signup';
-         
-    };
-    const changePassword = async event => 
-    {
-        
-                window.location.href = '/recovery';
-         
-    };
-
-    return(
-      <div id="loginDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
-      <form onSubmit={doLogin}>
-      <h1 style={{color:'white'}}>WELCOME TO ULTRA TRIVIA</h1>
-      <span style={{color:'gray'}} id="inner-title"  >PLEASE LOG IN</span><br />
-      <input style={{width: '250px',justifyContent: 'center', alignItems: 'center'}} type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
-      <input style={{width:'250px'}} type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-      <input style={{backgroundColor:'lightblue', width: '135px'}} type="submit" id="loginButton" class="buttons" value = "Login"
-          onClick={doLogin} />
-      <input style={{backgroundColor:'lightblue', width: '135px'}} type="submit" id="loginButton" class="buttons" value = "Signup"
+        <button type="submit">Login</button>
+        <input type="submit" id="loginButton" class="buttons" value = "Signup?"
           onClick={doSignup} />
-      <br />
-      <input style={{width: '270px',justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue'}} type="submit" id="forgotPasswordButton" class="buttons" value = "Forgot Password?"
-          onClick={changePassword} />
       </form>
-      <span id="loginResult">{message}</span>
-     </div>
-    );
+    </div>
+  );
 };
-
-export default Login;
