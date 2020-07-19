@@ -158,7 +158,7 @@ Future navigateToSignUp(context) async {
 
 Future navigateToSplashScreen(context) async {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => splashscreen()));
+      context, MaterialPageRoute(builder: (context) => SplashScreen()));
 }
 
 /*_
@@ -167,7 +167,7 @@ Future navigateToSplashScreen(context) async {
     //var data = {'login': username, 'password': pass};
     var jsonResponse;
     String json = '{"login":"' + username + '", "password": "' + pass + '"}';
-    http.Response response = await http.post(
+    http.Response response =  mk await http.post(
         "https://mernstack-1.herokuapp.com/api/login",
         body: utf8.encode(json),
         headers: {

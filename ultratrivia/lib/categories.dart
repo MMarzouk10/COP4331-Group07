@@ -5,10 +5,10 @@ import 'globals.dart' as globals;
 
 class Categories extends StatefulWidget {
   @override
-  CategoriesState createState() => CategoriesState();
+  _CategoriesState createState() => _CategoriesState();
 }
 
-class CategoriesState extends State<Categories> {
+class _CategoriesState extends State<Categories> {
   List<String> images = [
     "assets/images/coding.jpg",
     "assets/images/sports.png",

@@ -8,9 +8,9 @@ import 'signup.dart';
 import 'globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
-class splashscreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _splashscreenState createState() => _splashscreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
 class Constants {
@@ -26,7 +26,7 @@ class Constants {
   ];
 }
 
-class _splashscreenState extends State<splashscreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(

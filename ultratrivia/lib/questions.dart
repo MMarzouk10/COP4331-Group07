@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<Questions> fetchQuestion(String category, usedQuestions) async {
+Future<List<Questions>> fetchQuestion(String category, usedQuestions) async {
   String input = '{"category":"' +
       category +
       '", "usedQuestions": "' +
@@ -9,7 +9,7 @@ Future<Questions> fetchQuestion(String category, usedQuestions) async {
       '"}';
 
   final response = await http.post(
-      "https://mernstack-1.herokuapp.com/api/getQuestion",
+      "https://mernstack-1.herokuapp.com/api/getQuestions",
       body: utf8.encode(input),
       headers: {
         "Accept": "application/json",
@@ -17,15 +17,25 @@ Future<Questions> fetchQuestion(String category, usedQuestions) async {
       },
       encoding: Encoding.getByName("utf-8"));
 
+  String responseBody = response.body;
+  //print(responseBody);
+  //print(response.statusCode);
+
+  var questionObjJson = jsonDecode(responseBody)['QuestionArray'] as List;
+  List<Questions> questionObj = questionObjJson
+      .map((questionJson) => Questions.fromJson(questionJson))
+      .toList();
+
+  print(questionObj[0]);
+
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Questions.fromJson(json.decode(response.body));
+    return questionObj;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    return Questions.fromJson(json.decode(response.body));
-    //throw Exception('Failed to load question');
+    return throw Exception('Failed to load question');
   }
 }
 
@@ -35,7 +45,8 @@ class Questions {
   String answerTwo;
   String answerThree;
   String answerFour;
-  String qNum;
+  String correctAns;
+  String category;
 
   Questions(
       {this.question,
@@ -43,16 +54,23 @@ class Questions {
       this.answerTwo,
       this.answerThree,
       this.answerFour,
-      this.qNum});
+      this.correctAns,
+      this.category});
 
-  factory Questions.fromJson(Map<String, dynamic> json) {
+  factory Questions.fromJson(dynamic json) {
     return Questions(
       question: json['Question'] as String,
       answerOne: json['Option1'] as String,
-      answerTwo: json['Option2'].toString(),
-      answerThree: json['Option3'].toString(),
-      answerFour: json['Option4'].toString(),
-      qNum: json['QNUM'].toString(),
+      answerTwo: json['Option2'] as String,
+      answerThree: json['Option3'] as String,
+      answerFour: json['Option4'] as String,
+      correctAns: json['Answer'] as String,
+      category: json['Category'] as String,
     );
+  }
+
+  @override
+  String toString() {
+    return '{ ${this.question}, ${this.answerOne}, ${this.answerTwo}, ${this.answerThree}, ${this.answerFour}, ${this.correctAns}, ${this.category} }';
   }
 }
