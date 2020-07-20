@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
 import 'package:flutter/material.dart';
@@ -339,13 +339,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 170.0, 10.0, 20.0, 0.0),
-                            child: Link(
-                              child: Text(
-                                'Forgot Password?',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              url: 'http://www.ultracontacts.com',
-                            ),
+                            child: InkWell(
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () async {
+                                  if (await canLaunch(
+                                      "https://mernstack-1.herokuapp.com/ForgotPassword")) {
+                                    await launch(
+                                        "https://mernstack-1.herokuapp.com/ForgotPassword");
+                                  }
+                                }),
                           ),
                           Container(
                             padding: EdgeInsets.all(20.0),
@@ -359,6 +364,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 submit(context);
                               },
                               color: Colors.purple[900],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.purple)),
                             ),
                             margin: EdgeInsets.only(
                               top: 10.0,

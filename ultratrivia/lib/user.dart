@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future<SetPoints> sendPoints(String email, int points) async {
   String input =
-      '{"email":"' + email + '", "addVal": "' + points.toString() + '"}';
+      '{"email":"' + email + '", "addVal": ' + points.toString() + '}';
 
   final response = await http.post(
       "https://mernstack-1.herokuapp.com/api/incrementPoints",
