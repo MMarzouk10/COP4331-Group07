@@ -7,6 +7,8 @@ import 'package:ultratrivia/signup.dart';
 import 'signup.dart';
 import 'gameplay.dart';
 import 'categories.dart';
+import 'cognitoSignIn.dart';
+import 'confirmation.dart';
 
 void main() => runApp(UltraTrivia());
 
@@ -15,8 +17,10 @@ class UltraTrivia extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ultra Trivia',
-      home: Categories(),
-      //home: SignUpPage(),
+      //home: Categories(),
+      home: SignUpPage(),
+      //home: LoginScreen(),
+      //home: ConfirmationScreen(),
     );
   }
 }

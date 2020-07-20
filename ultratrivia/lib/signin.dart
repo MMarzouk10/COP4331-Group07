@@ -20,7 +20,7 @@ class SignIn extends State<SignInPage> {
   //String serverResponse = 'Server response';
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
-  Future<User> futureUser;
+  Future<SetPoints> futureUser;
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -52,12 +52,12 @@ class SignIn extends State<SignInPage> {
           child: Column(
             children: <Widget>[
               Center(
-                child: FutureBuilder<User>(
+                child: FutureBuilder<SetPoints>(
                   future: futureUser,
                   builder: (context, user) {
                     if (user.hasData) {
-                      globals.userID = '${user.data.userID}';
-                      globals.userName = '${user.data.userName}';
+                      // globals.userID = '${user.data.userID}';
+                      //globals.userName = '${user.data.userName}';
                       if (globals.userID == '-1')
                         return Text('Invalid Username/Password',
                             style: TextStyle(
@@ -131,8 +131,8 @@ class SignIn extends State<SignInPage> {
           child: FloatingActionButton.extended(
             onPressed: () {
               setState(() {
-                futureUser =
-                    fetchUser(usernameController.text, passwordController.text);
+                //futureUser =
+                //  fetchUser(usernameController.text, passwordController.text);
               });
             },
             label: Text(
@@ -167,7 +167,7 @@ Future navigateToSplashScreen(context) async {
     //var data = {'login': username, 'password': pass};
     var jsonResponse;
     String json = '{"login":"' + username + '", "password": "' + pass + '"}';
-    http.Response response =  mk await http.post(
+    http.Response response = await http.post(
         "https://mernstack-1.herokuapp.com/api/login",
         body: utf8.encode(json),
         headers: {

@@ -8,8 +8,8 @@
       "languageVersion": "2.2"
     },
     {
-      "name": "amazon_cognito_identity_dart",
-      "rootUri": "file:///home/nem/flutter/.pub-cache/hosted/pub.dartlang.org/amazon_cognito_identity_dart-0.0.22",
+      "name": "amazon_cognito_identity_dart_2",
+      "rootUri": "file:///home/nem/flutter/.pub-cache/hosted/pub.dartlang.org/amazon_cognito_identity_dart_2-0.1.15",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -566,7 +566,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-07-19T03:48:41.387555Z",
+  "generated": "2020-07-19T19:34:50.963556Z",
   "generator": "pub",
   "generatorVersion": "2.8.4"
 }

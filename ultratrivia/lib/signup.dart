@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 //import 'package:link/link.dart';
 //import 'dart:io';
 //import 'package:http/http.dart';
-import 'signin.dart';
+//import 'signin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'cognitoSignIn.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class SignUp extends State<SignUpPage> {
                     onPressed: () async {
                       _launchURL();
                       await new Future.delayed(const Duration(seconds: 5));
-                      navigateToSignIn(context);
+                      navigateToLogin(context);
                     },
                     child: Text(
                       'Sign Up',
@@ -72,7 +73,7 @@ class SignUp extends State<SignUpPage> {
                   child: RaisedButton(
                     onPressed: () {
                       //checkLoginStatus();
-                      navigateToSignIn(context);
+                      navigateToLogin(context);
                     },
                     child: Text(
                       'Sign In',
@@ -94,9 +95,9 @@ class SignUp extends State<SignUpPage> {
     );
   }
 
-  Future navigateToSignIn(context) async {
+  Future navigateToLogin(context) async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignInPage()));
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   _launchURL() async {

@@ -14,6 +14,15 @@ class EndGameScreen extends StatefulWidget {
 }
 
 class _EndGameState extends State<EndGameScreen> {
+  Future<SetPoints> setPoints;
+  Future<GetPoints> myPoints;
+  @override
+  void initState() {
+    setPoints = sendPoints(globals.email, globals.resPoints);
+    myPoints = getPoints(globals.email);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -48,16 +57,40 @@ class _EndGameState extends State<EndGameScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [Colors.deepPurple, Colors.purple])),
-          child: Center(
-            child: Text(
-              'Game Over',
-              style: TextStyle(
-                fontSize: 50.0,
-                color: Colors.white,
-                fontFamily: 'Satisfy',
+
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 180),
+              FutureBuilder<GetPoints>(
+                  future: myPoints,
+                  builder: (context, user) {
+                    if (user.hasData) {
+                      return Center(
+                          child: Text(
+                        '$user.points',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontFamily: 'Satisfy',
+                        ),
+                        textAlign: TextAlign.center,
+                      ));
+                    }
+                    return CircularProgressIndicator();
+                  }),
+              const SizedBox(height: 50),
+              Center(
+                child: Text(
+                  'Game Over',
+                  style: TextStyle(
+                    fontSize: 50.0,
+                    color: Colors.white,
+                    fontFamily: 'Satisfy',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
+            ],
           ),
         ),
 
