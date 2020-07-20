@@ -9,7 +9,6 @@ import 'package:link/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'splash.dart';
 import 'globals.dart' as globals;
-import 'confirmation.dart';
 
 // Setup AWS User Pool Id & Client Id settings here:
 const _awsUserPoolId = 'us-east-2_qzkz9I4xL';
@@ -280,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
         future: _getValues(),
         builder: (context, AsyncSnapshot<UserService> snapshot) {
           if (snapshot.hasData) {
-            if (_user.emailStatus == 'true') {
+            if (_isAuthenticated) {
               return SplashScreen();
             }
             final Size screenSize = MediaQuery.of(context).size;
@@ -374,10 +373,22 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           }
           return Scaffold(
-              appBar: AppBar(
-            title: Text('Loading...'),
-            backgroundColor: Colors.purple[900],
-          ));
+            appBar: AppBar(
+              title: Text('Loading...'),
+              backgroundColor: Colors.purple[900],
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.deepPurple, Colors.purple]),
+              ),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
         });
   }
 }

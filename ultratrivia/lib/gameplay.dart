@@ -6,7 +6,7 @@ import 'package:ultratrivia/questions.dart';
 //import 'dart:io';
 //import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
-//import 'signin.dart';
+//import 'cognitoSignIn.dart';
 import 'user.dart';
 import 'package:flip_card/flip_card.dart';
 import 'globals.dart' as globals;
@@ -33,7 +33,7 @@ class _GamePlay extends State<GamePlayPage> {
         () {
           if (_start < 1) {
             timer.cancel();
-            globals.resPoints = points.toString();
+            globals.resPoints = points;
             Future.delayed(
               Duration.zero,
               () {
@@ -74,34 +74,41 @@ class _GamePlay extends State<GamePlayPage> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.deepPurpleAccent,
+        //backgroundColor: Colors.deepPurpleAccent,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
             'Ultra Trivia',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.purple[900],
         ),
-        body: SingleChildScrollView(
-          child: Container(
+        body: new Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.deepPurple, Colors.purple])),
+          child: SingleChildScrollView(
             child: new Column(
               children: <Widget>[
                 SizedBox(
                   height: 20,
                 ),
                 // Points Counter
-                new Card(
+                new ClipOval(
                   child: Container(
+                    color: Colors.purple[900],
                     width: 150,
                     height: 80,
                     //padding: const EdgeInsets.symmetric(
                     //horizontal: 10.0, vertical: 120),
                     child: Center(
                       child: Text(
-                        'Points: $points',
+                        ' Points \n      $points',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
@@ -116,7 +123,16 @@ class _GamePlay extends State<GamePlayPage> {
                   height: 30,
                   width: 50,
                   child: Card(
-                    child: Center(child: Text("$_start")),
+                    color: Colors.purple[900],
+                    child: Center(
+                        child: Text(
+                      "$_start",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    )),
                   ),
                 ),
 
@@ -133,6 +149,7 @@ class _GamePlay extends State<GamePlayPage> {
                       children: <Widget>[
                         Center(
                           child: Card(
+                            color: Colors.transparent,
                             child: Column(
                               //mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -169,6 +186,7 @@ class _GamePlay extends State<GamePlayPage> {
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
@@ -176,9 +194,9 @@ class _GamePlay extends State<GamePlayPage> {
                                             child: Text(
                                               question.question,
                                               style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                  color: Colors.white),
                                             ),
                                           ),
                                         ],
@@ -217,9 +235,9 @@ class _GamePlay extends State<GamePlayPage> {
                                               borderRadius:
                                                   BorderRadius.circular(18.0),
                                               side: BorderSide(
-                                                  color: Colors.black),
+                                                  color: Colors.purple),
                                             ),
-                                            color: Colors.deepPurpleAccent,
+                                            color: Colors.purple[900],
                                             child: SizedBox(
                                               height: 20.0,
                                               child: Text(
@@ -260,9 +278,9 @@ class _GamePlay extends State<GamePlayPage> {
                                               borderRadius:
                                                   BorderRadius.circular(18.0),
                                               side: BorderSide(
-                                                  color: Colors.black),
+                                                  color: Colors.purple),
                                             ),
-                                            color: Colors.deepPurpleAccent,
+                                            color: Colors.purple[900],
                                             child: SizedBox(
                                               height: 20.0,
                                               child: Text(
@@ -303,9 +321,9 @@ class _GamePlay extends State<GamePlayPage> {
                                               borderRadius:
                                                   BorderRadius.circular(18.0),
                                               side: BorderSide(
-                                                  color: Colors.black),
+                                                  color: Colors.purple),
                                             ),
-                                            color: Colors.deepPurpleAccent,
+                                            color: Colors.purple[900],
                                             child: SizedBox(
                                               height: 20.0,
                                               child: Text(
@@ -346,9 +364,9 @@ class _GamePlay extends State<GamePlayPage> {
                                               borderRadius:
                                                   BorderRadius.circular(18.0),
                                               side: BorderSide(
-                                                  color: Colors.black),
+                                                  color: Colors.purple),
                                             ),
-                                            color: Colors.deepPurpleAccent,
+                                            color: Colors.purple[900],
                                             child: SizedBox(
                                               height: 20.0,
                                               child: Text(
@@ -400,6 +418,7 @@ class _GamePlay extends State<GamePlayPage> {
                       children: <Widget>[
                         Center(
                           child: Card(
+                            color: Colors.transparent,
                             child: Column(
                               //mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -419,7 +438,8 @@ class _GamePlay extends State<GamePlayPage> {
                                   //subtitle: Text('Trivia Question?'),
                                 ),
                                 FlatButton(
-                                  child: Text('$resAction'),
+                                  child: Text('$resAction',
+                                      style: TextStyle(color: Colors.white)),
                                   onPressed: () {
                                     cardKey.currentState.toggleCard();
                                     setState(() {

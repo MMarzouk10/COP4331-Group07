@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<SetPoints> sendPoints(String email, points) async {
-  String input = '{"email":"' + email + '", "addVal": "' + points + '"}';
+Future<SetPoints> sendPoints(String email, int points) async {
+  String input =
+      '{"email":"' + email + '", "addVal": "' + points.toString() + '"}';
 
   final response = await http.post(
       "https://mernstack-1.herokuapp.com/api/incrementPoints",
@@ -13,7 +14,7 @@ Future<SetPoints> sendPoints(String email, points) async {
       },
       encoding: Encoding.getByName("utf-8"));
 
-  print("sendPoints Connection" + '$response.statusCode');
+  print(response.body);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -38,7 +39,7 @@ Future<GetPoints> getPoints(String email) async {
       },
       encoding: Encoding.getByName("utf-8"));
 
-  print("getPoints Connection" + '$response.statusCode');
+  print(response.body);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -53,28 +54,28 @@ Future<GetPoints> getPoints(String email) async {
 
 class GetPoints {
   final String email;
-  final String points;
+  final int points;
 
   GetPoints({this.email, this.points});
 
   factory GetPoints.fromJson(Map<String, dynamic> json) {
     return GetPoints(
-      email: json['email'].toString(),
-      points: json['points'].toString(),
+      //email: json['email'] as String,
+      points: json['Points'],
     );
   }
 }
 
 class SetPoints {
   final String email;
-  final String points;
+  final int points;
 
   SetPoints({this.email, this.points});
 
   factory SetPoints.fromJson(Map<String, dynamic> json) {
     return SetPoints(
-      email: json['email'].toString(),
-      //points: json['addVal'].toString(),
+      email: json['Email'] as String,
+      points: json['Points'],
     );
   }
 }

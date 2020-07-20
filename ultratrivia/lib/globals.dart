@@ -4,4 +4,4 @@ String userName;
 String userID;
 String category;
 String email;
-String resPoints;
+int resPoints;

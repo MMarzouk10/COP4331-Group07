@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:ultratrivia/gameplay.dart';
 import 'categories.dart';
 import 'signin.dart';
 import 'dart:io';
@@ -67,7 +68,7 @@ class _EndGameState extends State<EndGameScreen> {
                     if (user.hasData) {
                       return Center(
                           child: Text(
-                        '$user.points',
+                        user.data.points.toString(),
                         style: TextStyle(
                           fontSize: 20.0,
                           color: Colors.white,
@@ -75,6 +76,14 @@ class _EndGameState extends State<EndGameScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ));
+                    } else if (user.hasError) {
+                      return Text(
+                        "${user.error}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white),
+                      );
                     }
                     return CircularProgressIndicator();
                   }),
@@ -125,22 +134,4 @@ Future navigateToSignUpPage(context) async {
 Future navigateToCategoriesPage(context) async {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => Categories()));
-}
-
-_launchFAQ() async {
-  const url = 'https://mernstack-1.herokuapp.com/FAQ';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-_launchProfile() async {
-  const url = 'http://mernstack-1.herokuapp.com/Profile';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
 }

@@ -147,7 +147,23 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           );
         }
-        return Scaffold(appBar: AppBar(title: Text('Loading...')));
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Loading...'),
+            backgroundColor: Colors.purple[900],
+          ),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.deepPurple, Colors.purple]),
+            ),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
       },
     );
   }
