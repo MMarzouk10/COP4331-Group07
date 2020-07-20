@@ -292,6 +292,26 @@ app.post('/api/leaderboard', async (req, res, next) =>
   var ret = { Results: _ret, error: error};
   res.status(200).json(ret);
 });
+
+app.post('/api/leaderboard1', async (req, res, next) => 
+{
+  // incoming: 
+  // outgoing: results, error
+
+  var error = '';
+
+  const { numPlayer } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('users').find().sort({"Points": -1}).toArray();
+//  const results = await db.collection('users').find( { $query: {}, $orderby: { Points : -1 }, $slice: 2 } );
+
+//  var _ret = [];
+//  _ret.push( results[numPlayer].Email + ": " + results[i].Points );
+
+  var ret = { email: results[numPlayer].Email, points: results[numPlayer].Points, error: error};
+  res.status(200).json(ret);
+});
 //}
 
 // change dfor Heroku deployment
