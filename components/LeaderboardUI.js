@@ -30,19 +30,46 @@ const StyledTableRow = withStyles((theme) => ({
 function createData(Rank, User, Points) {
   return { Rank, User, Points };
 }
+var js = '{"numPlayers":0}';
+
+
+
+const response = fetch(BASE_URL + 'api/leaderboard',
+
+	{method:'POST', body:js, headers:{'Content-Type':'application/json}});
+
+
+
+var txt = response.text();
+
+var res = JSON.parse(txt);
+
+var _results = res.results;
+
+
 
 const rows = [
-  createData('1', 'Angelina Jolie', '10.0'),
-  createData('2', 'Beyonce', '9.2'),
-  createData('3', 'Rihanna', '8.7'),
-  createData('4', 'Tupac', '7.1'),
-  createData('5', 'Aaron Rodger', '7.0'),
-  createData('6', 'Daniel Biller', '6.5'),
-  createData('7', 'Jack Sparrow', '6.3'),
-  createData('8', 'Tom Brady', '6.1'),
-  createData('9', 'The Rock', '5.7'),
-  createData('10', 'Spongebob', '0.1')
-  
+
+	createData('1', _results[0].Email, _results[0].Points),
+
+	createData('2', _results[1].Email, _results[1].Points),
+
+	createData('3', _results[2].Email, _results[2].Points),
+
+	createData('4', _results[3].Email, _results[3].Points),
+
+	createData('5', _results[4].Email, _results[4].Points),
+
+	createData('6', _results[5].Email, _results[5].Points),
+
+	createData('7', _results[6].Email, _results[6].Points),
+
+	createData('8', _results[7].Email, _results[7].Points),
+
+	createData('9', _results[8].Email, _results[8].Points),
+
+	createData('10', _results[9].Email, _results[9].Points)
+
 ];
 
 const useStyles = makeStyles({
@@ -82,6 +109,3 @@ export default function LeaderboardUI() {
     </div>
   );
 }
-
-
-
