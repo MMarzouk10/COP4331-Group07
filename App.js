@@ -5,9 +5,11 @@ import './App.css';
 
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import CardPage from './pages/CardPage';
+//import CardPage from './pages/CardPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ProfilePage from './pages/ProfilePage';
 import FaqPage from './pages/FaqPage';
+import LeaderboardPage from './pages/LeaderboardPage';
 
 function App() {
   return (
@@ -19,14 +21,17 @@ function App() {
         <Route path="/signup" exact>
           <SignupPage />
         </Route>
-        <Route path="/cards" exact>
-          <CardPage />
+        <Route path="/ForgotPassword" exact>
+          <ForgotPasswordPage/>
         </Route>
         <Route path="/profile" exact>
           <ProfilePage />
         </Route>
         <Route path="/Faq" exact>
           <FaqPage />
+        </Route>
+        <Route path="/home" exact>
+          <LeaderboardPage/>
         </Route>
         <Redirect to="/" />
       </Switch>  
