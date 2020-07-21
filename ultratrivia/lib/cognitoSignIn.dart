@@ -335,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(
-                                170.0, 10.0, 20.0, 0.0),
+                                100.0, 10.0, 20.0, 0.0),
                             child: InkWell(
                                 child: Text(
                                   'Forgot Password?',

@@ -17,16 +17,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class Constants {
-  static const String ChangePassword = 'Change Password';
-  static const String ChangeEmail = 'Change Email';
-  static const String ChangeLogin = 'Change Login';
+  static const String ManageAccount = 'Manage Account';
   static const String FAQ = 'FAQ';
-  static const List<String> choices = <String>[
-    ChangePassword,
-    ChangeEmail,
-    ChangeLogin,
-    FAQ
-  ];
+  static const List<String> choices = <String>[ManageAccount, FAQ];
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -238,7 +231,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               floatingActionButton: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 95, vertical: 80),
+                    const EdgeInsets.symmetric(horizontal: 70, vertical: 80),
                 child: FloatingActionButton.extended(
                   onPressed: () {
                     navigateToCategoriesPage(context);
@@ -280,20 +273,15 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 void choiceAction(String choice) {
-  if (choice == Constants.ChangePassword) {
-    print('ChangePassword');
-  } else if (choice == Constants.ChangeEmail) {
-    print('ChangeEmail');
-  } else if (choice == Constants.ChangeLogin) {
-    print('ChangeLogin');
+  if (choice == Constants.ManageAccount) {
+    print('Mange Account');
   } else if (choice == Constants.FAQ) {
     print('FAQ');
   }
 }
 
 Future navigateToSignUpPage(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SignUpPage()));
+  Navigator.pushReplacementNamed(context, '/signupscreen');
 }
 
 Future navigateToCategoriesPage(context) async {
@@ -302,8 +290,7 @@ Future navigateToCategoriesPage(context) async {
 }
 
 Future navigateToLogin(context) async {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  Navigator.pushReplacementNamed(context, '/loginscreen');
 }
 
 _launchFAQ() async {

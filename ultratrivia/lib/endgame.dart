@@ -145,19 +145,20 @@ class _EndGameState extends State<EndGameScreen> {
 
         //child: Scaffold(
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 65, vertical: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 120),
           child: FloatingActionButton.extended(
             onPressed: () {
               navigateToCategoriesPage(context);
             },
             label: Text(
               'Start a New Game',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15),
+              textAlign: TextAlign.center,
             ),
             icon: Icon(Icons.videogame_asset),
             backgroundColor: Colors.purple[900],
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
+                borderRadius: BorderRadius.circular(20.0),
                 side: BorderSide(color: Colors.purple)),
           ),
         ),

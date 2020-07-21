@@ -21,6 +21,7 @@ class UltraTrivia extends StatelessWidget {
       title: 'Ultra Trivia',
       home: SignUpPage(),
       routes: <String, WidgetBuilder>{
+        '/signupscreen': (BuildContext context) => new SignUpPage(),
         '/landingscreen': (BuildContext context) => new SplashScreen(),
         '/loginscreen': (BuildContext context) => new LoginScreen(),
         '/categoriesscreen': (BuildContext context) => new Categories(),
