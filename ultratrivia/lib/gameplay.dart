@@ -71,6 +71,7 @@ class _GamePlay extends State<GamePlayPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(

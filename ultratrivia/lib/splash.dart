@@ -302,7 +302,7 @@ Future navigateToCategoriesPage(context) async {
 }
 
 Future navigateToLogin(context) async {
-  Navigator.push(
+  Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => LoginScreen()));
 }
 
