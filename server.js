@@ -47,30 +47,6 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
 });
 
-app.post('/api/addfriend', async (req, res, next) =>
-{
-  // incoming: userId, card
-  // outgoing: error
-
-  const { email, addFriend } = req.body;
-
-  const newFriend = {Email:email,Friend:addFriend};
-  var error = '';
-
-  try
-  {
-    const db = client.db();
-    const result = db.collection('friends').insertOne(newFriend);
-  }
-  catch(e)
-  {
-    error = e.toString();
-  }
-
-  var ret = { error: error };
-  res.status(200).json(ret);
-});
-
 app.post('/api/signup', async (req, res, next) =>
 {
   // incoming: login, email, password
@@ -84,10 +60,17 @@ app.post('/api/signup', async (req, res, next) =>
   //const newUser = {Login:login,Email:email,Password:password, Flag:false, Points:0, Token:null};
   const newUser = {Email:email, Points:0};
 
+  const datab = client.db();
+  const check = await datab.collection('users').find({Email:email}).toArray();
+
+  if (check.length > 0){
+    return res.status(400).json({error: "user with this email already exists."});
+  }
+
   try
   {
     const db = client.db();
-    const result = db.collection('users').insertOne(newUser);
+    const result = await db.collection('users').insertOne(newUser);
   }
   catch(e)
   {
@@ -97,18 +80,6 @@ app.post('/api/signup', async (req, res, next) =>
   var ret = {error:error};
   res.status(200).json(ret);
 });
-
-app.post('/api/forgotpassword', async (req, res, next) =>
-{
-  //incoming: email
-  //outgoing: confirmation
-
-  var error = '';
-
-  const{email} = req.body;
-
-//SEND EMAIL LINK TO RESET PASSWORD
-})
 
 app.post('/api/login', async (req, res, next) => 
 {
@@ -138,52 +109,6 @@ app.post('/api/login', async (req, res, next) =>
   }
 
   var ret = {login:loginName, id: id, error:error};
-  res.status(200).json(ret);
-});
-
-app.post('/api/searchfriend', async (req, res, next) => 
-{
-  // incoming: email, search
-  // outgoing: results[], error
-
-  var error = '';
-
-  const { email, search } = req.body;
-
-  var _search = search.trim();
-  
-  const db = client.db();
-  const results = await db.collection('friends').find({"Friend":{$regex:_search+'.*', $options:'r'}, "Email":email}).toArray();
-  
-  var _ret = [];
-  for( var i=0; i<results.length; i++ )
-  {
-    _ret.push( results[i].Friend);
-  }
-
-  var ret = {results:_ret, error:''};
-  res.status(200).json(ret);
-});
-
-app.post('/api/changepassword', async (req, res, next) =>
-{
-  // incoming: userId, newPassword, oldPassword
-  // outgoing: error
-
-  var error = '';
-
-  const {userId, newPassword, oldPassword} = req.body;//Get userId, old password, and new password login from body
-
-  const db = client.db();//set client db
-
-  try{
-    db.collection('users').update({_id:userId, Password:oldPassword }, {$set: {Password: newPassword}}); //update the password field
-  }
-  catch(e){
-    error = e.toString();
-  }
-
-  var ret = {error: error};
   res.status(200).json(ret);
 });
 
@@ -309,9 +234,14 @@ app.post('/api/leaderboard1', async (req, res, next) =>
 //  var _ret = [];
 //  _ret.push( results[numPlayer].Email + ": " + results[i].Points );
 
-  var ret = { email: results[numPlayer].Email, points: results[numPlayer].Points, error: error};
+  var ret = { email1: results[0].Email, points1: results[0].Points, email2: results[1].Email, points2: results[1].Points,
+    email3: results[2].Email, points3: results[2].Points,email4: results[3].Email, points4: results[3].Points,
+    email5: results[4].Email, points5: results[4].Points,email6: results[5].Email, points6: results[5].Points,
+    email7: results[6].Email, points7: results[6].Points,email8: results[7].Email, points8: results[7].Points,
+    email9: results[8].Email, points9: results[8].Points,email10: results[9].Email, points10: results[9].Points,error: error};
   res.status(200).json(ret);
 });
+
 //}
 
 // change dfor Heroku deployment
