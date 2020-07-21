@@ -14,6 +14,11 @@ class _EndGameState extends State<EndGameScreen> {
   void initState() {
     _setPoints();
     //myPoints = getPoints(globals.email);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        getPoints(globals.email);
+      });
+    });
     super.initState();
   }
 

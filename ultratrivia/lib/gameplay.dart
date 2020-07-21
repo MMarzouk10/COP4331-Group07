@@ -198,6 +198,7 @@ class _GamePlay extends State<GamePlayPage> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                   color: Colors.white),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ],
