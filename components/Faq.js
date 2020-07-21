@@ -33,10 +33,11 @@ function createData(Questions, Answers) {
 }
 
 const rows = [
-  createData('How to download the mobile app?', 'Go to Google Play Store and search for Ultra Trivia'),
-  createData('How do you play game?', 'Create an account at mernstack-1.herokuapp.com. Verify your account, then log in on the mobile app and select the start game option.'),
-  createData('What is the difference between the website and the mobile app?', 'The mobile app is for the gameplay, the web app is for the FAQ, to create your acccount and to check the global leaderboard'),
-  createData('How can I reset password?', 'You can go to mernstack-1.herokuapp.com and click the "Forgot Password?" button. A code will be sent to your email. You will then need to enter that code and your new password.'),
+  createData('How to download mobile app?', 'Click on the following link:... Or go to Google Play and search for Ultra Trivia'),
+  createData('How do I play the game?', 'Open the mobile app and once logging in select a category for the trivia'),
+  createData('How does the interaction between the website and mobile app work?', 'The mobile app is the trivia section, web app is to reset password, view faq, and check leaderboards'),
+  createData('How can I reset password?', 'The web app has that option at the following page:...'),
+  createData('Can I view my high score?', 'Yes, click on leaderboards on the home page to view your score against top players'),
 ];
 
 const useStyles = makeStyles({
@@ -87,6 +88,5 @@ export default function PageTitle() {
   );
   
 }
-
 
 
