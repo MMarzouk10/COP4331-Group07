@@ -34,18 +34,19 @@ class _EndGameState extends State<EndGameScreen> {
             backgroundColor: Colors.purple[900],
             title: Center(
               child: Text(
-                'Game Points: ${globals.resPoints}',
+                'UltraTrivia',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.exit_to_app),
+                icon: Icon(Icons.home),
                 onPressed: () {
                   Future.delayed(
                     Duration.zero,
                     () {
-                      navigateToSignUpPage(context);
+                      navigateToSplashScreen(context);
                     },
                   );
                 },
@@ -61,14 +62,41 @@ class _EndGameState extends State<EndGameScreen> {
 
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 180),
+              const SizedBox(height: 60),
+              Center(
+                child: SizedBox(
+                  child: Text(
+                    'Nice Game\n ${globals.currentUser}!\n See your game summary below:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.orange,
+                      //fontFamily: 'Satisfy',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'Game Points: ${globals.resPoints}',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontFamily: 'Satisfy',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 20),
               FutureBuilder<GetPoints>(
                   future: myPoints,
                   builder: (context, user) {
                     if (user.hasData) {
                       return Center(
                           child: Text(
-                        user.data.points.toString(),
+                        'Total UltraTrivia Points: ' +
+                            user.data.points.toString(),
                         style: TextStyle(
                           fontSize: 20.0,
                           color: Colors.white,
@@ -87,10 +115,10 @@ class _EndGameState extends State<EndGameScreen> {
                     }
                     return CircularProgressIndicator();
                   }),
-              const SizedBox(height: 50),
+              const SizedBox(height: 80),
               Center(
                 child: Text(
-                  'Game Over',
+                  'TIMES UP!',
                   style: TextStyle(
                     fontSize: 50.0,
                     color: Colors.white,
@@ -105,7 +133,7 @@ class _EndGameState extends State<EndGameScreen> {
 
         //child: Scaffold(
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 65, vertical: 150),
           child: FloatingActionButton.extended(
             onPressed: () {
               navigateToCategoriesPage(context);
@@ -126,12 +154,10 @@ class _EndGameState extends State<EndGameScreen> {
   }
 }
 
-Future navigateToSignUpPage(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SignUpPage()));
+Future navigateToSplashScreen(context) async {
+  Navigator.popAndPushNamed(context, '/landingscreen');
 }
 
 Future navigateToCategoriesPage(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => Categories()));
+  Navigator.popAndPushNamed(context, '/categoriesscreen');
 }

@@ -1,4 +1,4 @@
-#Mon Jul 20 10:48:42 PDT 2020
+#Mon Jul 20 15:02:58 PDT 2020
 base.0=/home/nem/COP4331-Group07/ultratrivia/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

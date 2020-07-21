@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'categories.dart';
 import 'signin.dart';
 import 'dart:io';
-//import 'user.dart';
+import 'user.dart';
 import 'signup.dart';
 import 'globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 import 'cognitoSignIn.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
+import 'package:flip_card/flip_card.dart';
+
+GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -62,25 +65,23 @@ class _SplashScreenState extends State<SplashScreen> {
             return LoginScreen();
           }
           globals.email = _user.email;
+          String mail = _user.email;
+          globals.currentUser = mail.substring(0, mail.indexOf('@'));
           return Material(
             type: MaterialType.transparency,
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
                   backgroundColor: Colors.purple[900],
-                  title: Text(
-                    '${globals.email}',
-                    //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  title: Center(
+                    child: Text(
+                      'UltraTrivia',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
                   ),
                   actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.exit_to_app),
-                      onPressed: () {
-                        _userService.signOut();
-                        //Navigator.pop(context);
-                        navigateToLogin(context);
-                      },
-                    ),
                     PopupMenuButton<String>(
                       onSelected: choiceAction,
                       itemBuilder: (BuildContext context) {
@@ -103,7 +104,15 @@ class _SplashScreenState extends State<SplashScreen> {
                         Icons.settings,
                         color: Colors.white,
                       ),
-                    )
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.exit_to_app),
+                      onPressed: () {
+                        _userService.signOut();
+                        //Navigator.pop(context);
+                        navigateToLogin(context);
+                      },
+                    ),
                   ]),
               body: new Container(
                 //backgroundColor: Colors.deepPurple,
@@ -112,23 +121,127 @@ class _SplashScreenState extends State<SplashScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [Colors.deepPurple, Colors.purple])),
-                child: Center(
-                  child: Text(
-                    'ScoreBoard',
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      color: Colors.white,
-                      fontFamily: 'Satisfy',
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 40),
+                    Center(
+                      child: SizedBox(
+                        child: Text(
+                          'Welcome ${globals.currentUser}',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.orange,
+                            fontFamily: 'Satisfy',
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: SizedBox(
+                        child: FutureBuilder<GetPoints>(
+                            future: getPoints(globals.email),
+                            builder: (context, user) {
+                              if (user.hasData) {
+                                return Center(
+                                    child: Text(
+                                  'Total UltraTrivia Points\n ' +
+                                      user.data.points.toString(),
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontFamily: 'Satisfy',
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ));
+                              } else if (user.hasError) {
+                                return Text(
+                                  "${user.error}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                );
+                              }
+                              return CircularProgressIndicator();
+                            }),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: new Container(
+                        width: 350,
+                        height: 300,
+                        child: Card(
+                          color: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "\nGAMEPLAY INSTRUCTIONS\n",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  '1. Choose a category of questions\n'
+                                  '2. Answer questions within time limit\n'
+                                  '3. Try until you get max points\n',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.white),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  'Enjoy!\n',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Colors.white),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Center(
+                                child: new RaisedButton(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'View LeaderBoard',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () async {
+                                    _launchURL();
+                                  },
+                                  color: Colors.purple[900],
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: Colors.purple)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-              //child: Scaffold(
               floatingActionButton: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 95, vertical: 150),
+                    const EdgeInsets.symmetric(horizontal: 95, vertical: 80),
                 child: FloatingActionButton.extended(
                   onPressed: () {
                     navigateToCategoriesPage(context);
@@ -207,6 +320,15 @@ _launchFAQ() async {
 
 _launchProfile() async {
   const url = 'http://mernstack-1.herokuapp.com/Profile';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_launchURL() async {
+  const url = 'https://mernstack-1.herokuapp.com/home';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

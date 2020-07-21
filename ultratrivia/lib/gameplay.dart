@@ -78,8 +78,8 @@ class _GamePlay extends State<GamePlayPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            'Ultra Trivia',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            'UltraTrivia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           backgroundColor: Colors.purple[900],
         ),
@@ -471,6 +471,5 @@ class _GamePlay extends State<GamePlayPage> {
 }
 
 Future navigateToEndGame(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => EndGameScreen()));
+  Navigator.popAndPushNamed(context, '/endgamescreen');
 }
