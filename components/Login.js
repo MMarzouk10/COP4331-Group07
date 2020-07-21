@@ -23,7 +23,8 @@ export default () => {
     user.authenticateUser(authDetails, {
       onSuccess: data => {
         console.log("onSuccess:", data);
-       
+        var user = {email:email};
+        localStorage.setItem('user_data', JSON.stringify(user));
         window.location.href = '/home';
       },
 
@@ -41,7 +42,6 @@ export default () => {
   };
   const doSignup = async event => 
   {
-      
               window.location.href = '/signup';
        
   };
@@ -49,6 +49,9 @@ export default () => {
   {
       window.location.href='/ForgotPassword';
   };
+
+  
+
   return (
     <div id="loginDiv" style={{textAlign:'center', width: '100%', height: '100%', backgroundImage: "linear-gradient(to bottom, #4A148C,#673AB7, #9C27B0)", position:'absolute', left:'50%', top:'50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems:'center',justifyContent:'center'}}>
       {stage === 1 && (
