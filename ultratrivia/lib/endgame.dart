@@ -1,13 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:ultratrivia/gameplay.dart';
-import 'categories.dart';
-import 'signin.dart';
-import 'dart:io';
 import 'user.dart';
-import 'signup.dart';
 import 'globals.dart' as globals;
-import 'package:url_launcher/url_launcher.dart';
 
 class EndGameScreen extends StatefulWidget {
   @override
@@ -15,13 +9,16 @@ class EndGameScreen extends StatefulWidget {
 }
 
 class _EndGameState extends State<EndGameScreen> {
-  Future<SetPoints> setPoints;
-  Future<GetPoints> myPoints;
+  //Future<GetPoints> myPoints;
   @override
   void initState() {
-    setPoints = sendPoints(globals.email, globals.resPoints);
-    myPoints = getPoints(globals.email);
+    _setPoints();
+    //myPoints = getPoints(globals.email);
     super.initState();
+  }
+
+  Future _setPoints() async {
+    sendPoints(globals.email, globals.resPoints);
   }
 
   @override
@@ -36,7 +33,6 @@ class _EndGameState extends State<EndGameScreen> {
               child: Text(
                 'UltraTrivia',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
             actions: <Widget>[
@@ -53,20 +49,30 @@ class _EndGameState extends State<EndGameScreen> {
               ),
             ]),
         body: new Container(
-          //backgroundColor: Colors.deepPurple,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [Colors.deepPurple, Colors.purple])),
-
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 60),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  globals.endGame,
+                  style: TextStyle(
+                    fontSize: globals.endGame == "Times Up" ? 50.0 : 30,
+                    color: Colors.white,
+                    fontFamily: 'Satisfy',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 30),
               Center(
                 child: SizedBox(
                   child: Text(
-                    'Nice Game\n ${globals.currentUser}!\n See your game summary below:',
+                    'Nice Game\n ${globals.currentUser}!\n You answered ${globals.resPoints} questions correct!',
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.orange,
@@ -76,10 +82,23 @@ class _EndGameState extends State<EndGameScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Center(
                 child: Text(
-                  'Game Points: ${globals.resPoints}',
+                  'Game Summary',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Colors.white,
+                    fontFamily: 'Satisfy',
+                    decoration: TextDecoration.underline,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  'Game Points Earned: ${globals.resPoints}',
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
@@ -88,14 +107,14 @@ class _EndGameState extends State<EndGameScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               FutureBuilder<GetPoints>(
-                  future: myPoints,
+                  future: getPoints(globals.email),
                   builder: (context, user) {
                     if (user.hasData) {
                       return Center(
                           child: Text(
-                        'Total UltraTrivia Points: ' +
+                        'UltraTrivia Player Score: ' +
                             user.data.points.toString(),
                         style: TextStyle(
                           fontSize: 20.0,
@@ -115,18 +134,6 @@ class _EndGameState extends State<EndGameScreen> {
                     }
                     return CircularProgressIndicator();
                   }),
-              const SizedBox(height: 80),
-              Center(
-                child: Text(
-                  'TIMES UP!',
-                  style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.white,
-                    fontFamily: 'Satisfy',
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
             ],
           ),
         ),

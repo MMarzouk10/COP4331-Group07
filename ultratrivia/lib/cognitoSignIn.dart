@@ -2,13 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
-import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:link/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'splash.dart';
-import 'globals.dart' as globals;
 
 // Setup AWS User Pool Id & Client Id settings here:
 const _awsUserPoolId = 'us-east-2_qzkz9I4xL';
@@ -163,6 +159,7 @@ class UserService {
         rethrow;
       }
     } on CognitoUserConfirmationNecessaryException catch (e) {
+      print(e);
       isConfirmed = true;
     }
 

@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:ultratrivia/endgame.dart';
 import 'package:ultratrivia/questions.dart';
-//import 'package:link/link.dart';
-//import 'dart:io';
-//import 'package:http/http.dart';
-import 'package:url_launcher/url_launcher.dart';
-//import 'cognitoSignIn.dart';
-import 'user.dart';
 import 'package:flip_card/flip_card.dart';
 import 'globals.dart' as globals;
 import 'dart:async';
@@ -37,8 +30,8 @@ class _GamePlay extends State<GamePlayPage> {
             Future.delayed(
               Duration.zero,
               () {
+                globals.endGame = "Times Up!";
                 navigateToEndGame(context);
-                ;
               },
             );
           } else {
@@ -60,12 +53,18 @@ class _GamePlay extends State<GamePlayPage> {
   Future<List<Questions>> futureQuestion;
   Future<List<Questions>> futureAnswers;
   String res = "Incorrect", resAction = "Try Again";
-  int i = 0, points = 0;
+  int i = 0, points = 0, numQ = 0;
 
   @override
   void initState() {
     futureQuestion = fetchQuestion(globals.category, usedQuestions);
-    startTimer();
+    Future.delayed(
+      Duration(seconds: 2),
+      () {
+        startTimer();
+      },
+    );
+
     super.initState();
   }
 
@@ -74,7 +73,6 @@ class _GamePlay extends State<GamePlayPage> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        //backgroundColor: Colors.deepPurpleAccent,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -174,6 +172,8 @@ class _GamePlay extends State<GamePlayPage> {
 
                                       List<Questions> questions =
                                           questionList.data ?? [];
+                                      if (numQ == 0) numQ = questions.length;
+
                                       Questions question = questions[i];
                                       // Print Question to screen
                                       return Column(
@@ -188,6 +188,7 @@ class _GamePlay extends State<GamePlayPage> {
                                                 fontSize: 20,
                                                 color: Colors.white,
                                               ),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                           Center(
@@ -223,6 +224,7 @@ class _GamePlay extends State<GamePlayPage> {
                                     List<Questions> questions =
                                         questionList.data ?? [];
                                     Questions question = questions[i];
+
                                     return ButtonBar(
                                       alignment: MainAxisAlignment.center,
                                       children: <Widget>[
@@ -250,16 +252,20 @@ class _GamePlay extends State<GamePlayPage> {
                                             ),
                                             onPressed: () {
                                               // Answer #1 Test
+
                                               if (question.answerOne ==
                                                   question.correctAns) {
                                                 setState(() {
                                                   res = "Correct";
                                                   resAction = "Next Question";
+
                                                   Future.delayed(
-                                                    Duration.zero,
+                                                    Duration(seconds: 1),
                                                     () {
-                                                      i++;
-                                                      points++;
+                                                      if (i < numQ - 1) {
+                                                        i++;
+                                                        points++;
+                                                      }
                                                     },
                                                   );
                                                 });
@@ -293,16 +299,20 @@ class _GamePlay extends State<GamePlayPage> {
                                             ),
                                             onPressed: () {
                                               // Answer #2 Test
+
                                               if (question.answerTwo ==
                                                   question.correctAns) {
                                                 setState(() {
                                                   res = "Correct";
                                                   resAction = "Next Question";
+
                                                   Future.delayed(
-                                                    Duration.zero,
+                                                    Duration(seconds: 1),
                                                     () {
-                                                      i++;
-                                                      points++;
+                                                      if (i < numQ - 1) {
+                                                        i++;
+                                                        points++;
+                                                      }
                                                     },
                                                   );
                                                 });
@@ -336,16 +346,20 @@ class _GamePlay extends State<GamePlayPage> {
                                             ),
                                             onPressed: () {
                                               // Answer #3 Test
+
                                               if (question.answerThree ==
                                                   question.correctAns) {
                                                 setState(() {
                                                   res = "Correct";
                                                   resAction = "Next Question";
+
                                                   Future.delayed(
-                                                    Duration.zero,
+                                                    Duration(seconds: 1),
                                                     () {
-                                                      i++;
-                                                      points++;
+                                                      if (i < numQ - 1) {
+                                                        i++;
+                                                        points++;
+                                                      }
                                                     },
                                                   );
                                                 });
@@ -379,16 +393,20 @@ class _GamePlay extends State<GamePlayPage> {
                                             ),
                                             onPressed: () {
                                               // Answer #4 Test
+
                                               if (question.answerFour ==
                                                   question.correctAns) {
                                                 setState(() {
                                                   res = "Correct";
                                                   resAction = "Next Question";
+
                                                   Future.delayed(
-                                                    Duration.zero,
+                                                    Duration(seconds: 1),
                                                     () {
-                                                      i++;
-                                                      points++;
+                                                      if (i < numQ - 1) {
+                                                        i++;
+                                                        points++;
+                                                      }
                                                     },
                                                   );
                                                 });
@@ -441,15 +459,21 @@ class _GamePlay extends State<GamePlayPage> {
                                   child: Text('$resAction',
                                       style: TextStyle(color: Colors.white)),
                                   onPressed: () {
-                                    cardKey.currentState.toggleCard();
+                                    if (i == numQ - 1) {
+                                      globals.resPoints = points;
+                                      globals.endGame =
+                                          "Great Job, you answered all the questions!";
+                                      navigateToEndGame(context);
+                                    }
                                     setState(() {
                                       Future.delayed(
-                                        Duration.zero,
+                                        Duration(seconds: 1),
                                         () {
                                           res = "Inorrect";
                                           resAction = "Try Again";
                                         },
                                       );
+                                      cardKey.currentState.toggleCard();
                                     });
                                   },
                                 ),

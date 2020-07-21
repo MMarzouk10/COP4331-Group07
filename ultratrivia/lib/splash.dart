@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'categories.dart';
-import 'signin.dart';
-import 'dart:io';
 import 'user.dart';
 import 'signup.dart';
 import 'globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 import 'cognitoSignIn.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
-import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
 import 'package:flip_card/flip_card.dart';
 
 GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
@@ -146,7 +143,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               if (user.hasData) {
                                 return Center(
                                     child: Text(
-                                  'Total UltraTrivia Points\n ' +
+                                  'UltraTrivia Player Score\n ' +
                                       user.data.points.toString(),
                                   style: TextStyle(
                                     fontSize: 20.0,
