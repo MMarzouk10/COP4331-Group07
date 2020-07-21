@@ -57,7 +57,7 @@ const BASE_URL = 'https://mernstack-1.herokuapp.com/';
       {stage === 1 && (
       <form onSubmit={onSubmit}>
       <h1 style={{color:'white', fontSize: 48}}>Signup!</h1>
-      <form style={{backgroundColor:'lightblue', justifyContent: 'center', alignItems: 'center', height: '300px', width: '400px'}}><br /><br />
+      <form style={{backgroundColor:'lightblue', justifyContent: 'center', alignItems: 'center', height: '400px', width: '400px'}}><br /><br />
             <input
               style={{width: '350px', height: '50px', fontSize: 24, justifyContent: 'center', alignItems: 'center'}}
               value={email}
