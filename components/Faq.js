@@ -33,11 +33,11 @@ function createData(Questions, Answers) {
 }
 
 const rows = [
-  createData('How to download mobile app?', 'Click on the link above'),
-  createData('How do I play the game?', 'Open the mobile app and once logging in select a category for the trivia'),
-  createData('How does the interaction between the website and mobile app work?', 'The mobile app is the trivia section, web app is to reset password, view faq, and check leaderboards'),
-  createData('How can I reset password?', 'You can reset your password on the login page'),
-  createData('Can I view my high score?', 'Yes, click on leaderboards on the home page to view your score against top players'),
+  createData('How do I download the app?', 'Click on the link above.'),
+  createData('How do I play the game?', 'Open the mobile app, log in and then select a category for the trivia.'),
+  createData('Whats the difference between the web and mobile app?', 'The mobile app is for trivia section. The web app is used to reset your password, view the faq, and check the leaderboard.'),
+  createData('How can I reset my password?', 'You can reset your password on the login page in the web app.'),
+  createData('Can I view my high score?', 'Yes, click on leaderboard on the home page to view your score and compare it against the top 10 players.'),
 ];
 
 const useStyles = makeStyles({
@@ -95,5 +95,4 @@ export default function PageTitle() {
   );
   
 }
-
 
