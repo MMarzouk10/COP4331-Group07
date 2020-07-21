@@ -86,11 +86,17 @@ function LeaderboardUI()
       event.preventDefault();
         
       var js = '{"numPlayers":0}';
+      
+
 
       try
       {
+          var _ud = localStorage.getItem('user_data');
+          var ud = JSON.parse(_ud);
+          var userId = ud.email;
+          var js2 = '{"email": "'+userId+'"}';
           const response = await fetch(BASE_URL + 'api/getPoints',
-          {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+          {method:'POST',body:js2,headers:{'Content-Type': 'application/json'}});
 
           var txt = await response.text();
           var res = JSON.parse(txt);
@@ -210,6 +216,7 @@ function LeaderboardUI()
             onClick={faq}> FAQ </button>
         <br /><br />
         <h1 style={{color:'white', fontSize: 48}} >Ultra Trivia - Leaderboard</h1>
+        <br /><label style={{fontSize: 24, color: 'white'}}>Your High Score: {u20}</label><br /><br />
         
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
