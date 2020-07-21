@@ -33,10 +33,10 @@ function createData(Questions, Answers) {
 }
 
 const rows = [
-  createData('How to download mobile app?', 'Click on the following link:... Or go to Google Play and search for Ultra Trivia'),
+  createData('How to download mobile app?', 'Click on the link above'),
   createData('How do I play the game?', 'Open the mobile app and once logging in select a category for the trivia'),
   createData('How does the interaction between the website and mobile app work?', 'The mobile app is the trivia section, web app is to reset password, view faq, and check leaderboards'),
-  createData('How can I reset password?', 'The web app has that option at the following page:...'),
+  createData('How can I reset password?', 'You can reset your password on the login page'),
   createData('Can I view my high score?', 'Yes, click on leaderboards on the home page to view your score against top players'),
 ];
 
@@ -45,6 +45,10 @@ const useStyles = makeStyles({
     minWidth: 500,
   },
 });
+const app = async event => 
+    {
+        window.location.href = '/home';
+    };
 
 const goHome = async event => 
     {
@@ -59,7 +63,10 @@ export default function PageTitle() {
     
     <form style={{ width:700, justifyContent: 'center', alignItems: 'center'}}>
     <h1 style={{color:'white', fontSize: 48}}>FAQ</h1>
-     <br />
+    <br />
+    <a style={{fontSize: 30, fontColor: 'white', color: 'white'}}href="https://appetize.io/app/g5dm4kbz6kpg12ewmavw5gkf18" >Ultra Trivia App. Click Here! </a>
+    <br />
+    <br />
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
